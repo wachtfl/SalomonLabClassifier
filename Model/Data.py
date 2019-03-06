@@ -1,7 +1,7 @@
 class Data:
 
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, features):
+        self.features = features
 
     def getFeatures(self):
-        return "need to pass fetures from here"
+        return self.features
