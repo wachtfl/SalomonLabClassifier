@@ -1,0 +1,114 @@
+#:kivy 1.0.9
+
+#try attaching screen to tab with https://github.com/kivy/kivy/wiki/Linking-ScreenManager-to-a-different-Widget
+
+<SettingsScreen>:
+    canvas.before:
+        Rectangle:
+            source: 'brain3.jpg'
+            pos: self.pos
+            size: self.size
+    spacing: 10
+    padding: 5
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "Settings"
+            color: 100,100,80, 1
+            bold: True
+            font_size: 90
+            font_name: 'Forte'
+
+        Button:
+            text: "Choose Classification Target:"
+            background_color: (0, 0, 0, 1)
+            id: 'target'
+            on_release: root.listFeatures()
+        Button:
+            text: "Choose Classification type:"
+            on_release: root.listAlgorithms()
+        Label:
+            text: 'define a test set: '
+            color: (0,0,0,1)
+            bold: True
+        Slider:
+            id: e1
+            value: 20
+            range: (0,100)
+            value_track: True
+            step: 1
+            on_value: root.on_slider_value_changed(*args)
+
+        Label:
+            text: 'test set: {}%,  training set: {}%'.format(e1.value, 100-e1.value)
+            color: (0,0,0,1)
+            bold: True
+
+        Button:
+            text: "Submit"
+            on_release: root.onSubmit()
+
+<Test>:
+
+    size_hint: .8, .8
+    pos_hint: {'center_x': .5, 'center_y': .5}
+    do_default_tab: False
+
+    TabbedPanelItem:
+        text: 'data'
+        Label:
+            text: 'importing data files, selecting'
+    TabbedPanelItem:
+        text: 'settings'
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                text: "Settings"
+                color: 100,100,80, 1
+                bold: True
+                font_size: 90
+                font_name: 'Forte'
+
+            Button:
+                text: "Choose Classification Target:"
+                background_color: (0, 0, 0, 1)
+                id: 'target'
+                on_release: root.listFeatures()
+            Button:
+                text: "Choose Classification type:"
+                on_release: root.listAlgorithms()
+            Label:
+                text: 'define a test set: '
+                color: (0,0,0,1)
+                bold: True
+            Slider:
+                id: e1
+                value: 20
+                range: (0,100)
+                value_track: True
+                step: 1
+                on_value: root.on_slider_value_changed(*args)
+
+            Label:
+                text: 'test set: {}%,  training set: {}%'.format(e1.value, 100-e1.value)
+                color: (0,0,0,1)
+                bold: True
+
+            Button:
+                text: "Submit"
+                on_release: root.onSubmit()
+    TabbedPanelItem:
+        text: 'results'
+        RstDocument:
+            text:
+                '\\n'.join(("Hello world", "-----------",
+                "You are in the third tab."))
+    TabbedPanelItem:
+        text: 'graph'
+        Label:
+            text: 'importing data files, selecting'
+        Image:
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            size_hint: None, None
+            size: 450, 450
+            source: 'sameGraph.jpg'

@@ -8,7 +8,6 @@ from kivy.uix.dropdown import DropDown
 from kivy.config import Config
 from kivy.core.window import Window
 
-# I am here!!:)
 class MainWindowScreen(Screen):
     pass
 
