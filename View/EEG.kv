@@ -48,7 +48,7 @@
             text: "Submit"
             on_release: root.onSubmit()
 
-<Test>:
+<Root>:
 
     size_hint: .8, .8
     pos_hint: {'center_x': .5, 'center_y': .5}
@@ -56,8 +56,27 @@
 
     TabbedPanelItem:
         text: 'data'
-        Label:
-            text: 'importing data files, selecting'
+        text_input: text_input
+        BoxLayout:
+            orientation: 'vertical'
+            BoxLayout:
+                size_hint_y: None
+                height: 30
+                Button:
+                    text: 'Load'
+                    on_release: root.show_load()
+                Button:
+                    text: 'Save'
+                    on_release: root.show_save()
+
+            BoxLayout:
+                TextInput:
+                    id: text_input
+                    text: ''
+
+                RstDocument:
+                    text: text_input.text
+                    show_errors: True
     TabbedPanelItem:
         text: 'settings'
         BoxLayout:
@@ -112,3 +131,49 @@
             size_hint: None, None
             size: 450, 450
             source: 'sameGraph.jpg'
+
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.path, filechooser.selection)
+
+<SaveDialog>:
+    text_input: text_input
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+            on_selection: text_input.text = self.selection and self.selection[0] or ''
+
+        TextInput:
+            id: text_input
+            size_hint_y: None
+            height: 30
+            multiline: False
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Save"
+                on_release: root.save(filechooser.path, text_input.text)
