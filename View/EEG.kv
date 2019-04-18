@@ -2,61 +2,15 @@
 
 #try attaching screen to tab with https://github.com/kivy/kivy/wiki/Linking-ScreenManager-to-a-different-Widget
 
-<SettingsScreen>:
-    canvas.before:
-        Rectangle:
-            source: 'brain3.jpg'
-            pos: self.pos
-            size: self.size
-    spacing: 10
-    padding: 5
-    BoxLayout:
-        orientation: 'vertical'
-        Label:
-            text: "Settings"
-            color: 100,100,80, 1
-            bold: True
-            font_size: 90
-            font_name: 'Forte'
-
-        Button:
-            text: "Choose Classification Target:"
-            background_color: (0, 0, 0, 1)
-            id: 'target'
-            on_release: root.listFeatures()
-        Button:
-            text: "Choose Classification type:"
-            on_release: root.listAlgorithms()
-        Label:
-            text: 'define a test set: '
-            color: (0,0,0,1)
-            bold: True
-        Slider:
-            id: e1
-            value: 20
-            range: (0,100)
-            value_track: True
-            step: 1
-            on_value: root.on_slider_value_changed(*args)
-
-        Label:
-            text: 'test set: {}%,  training set: {}%'.format(e1.value, 100-e1.value)
-            color: (0,0,0,1)
-            bold: True
-
-        Button:
-            text: "Submit"
-            on_release: root.onSubmit()
-
 <Root>:
 
     size_hint: .8, .8
     pos_hint: {'center_x': .5, 'center_y': .5}
     do_default_tab: False
 
+    text_input: text_input
     TabbedPanelItem:
         text: 'data'
-        text_input: text_input
         BoxLayout:
             orientation: 'vertical'
             BoxLayout:
@@ -65,18 +19,12 @@
                 Button:
                     text: 'Load'
                     on_release: root.show_load()
-                Button:
-                    text: 'Save'
-                    on_release: root.show_save()
 
             BoxLayout:
                 TextInput:
                     id: text_input
-                    text: ''
+                    text: 'what is here'
 
-                RstDocument:
-                    text: text_input.text
-                    show_errors: True
     TabbedPanelItem:
         text: 'settings'
         BoxLayout:
@@ -89,10 +37,10 @@
                 font_name: 'Forte'
 
             Button:
-                text: "Choose Classification Target:"
+                text: "Choose Classification Target: (features)"
                 background_color: (0, 0, 0, 1)
                 id: 'target'
-                on_release: root.listFeatures()
+                on_release: root.listFeatures(self)
             Button:
                 text: "Choose Classification type:"
                 on_release: root.listAlgorithms()
@@ -134,6 +82,39 @@
 
 <LoadDialog>:
     BoxLayout:
+        orientation: 'vertical'
+        size: root.size
+        pos: root.pos
+
+        BoxLayout:
+            size_hint_y: None
+            height: sp(52)
+
+            Button:
+                text: 'Icon View'
+                on_press: fc.view_mode = 'icon'
+            Button:
+                text: 'List View'
+                on_press: fc.view_mode = 'list'
+
+        FileChooser:
+            id: fc
+            FileChooserIconLayout
+            FileChooserListLayout
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Load"
+                on_release: root.load(fc.path, fc.selection)
+
+<LoadDialog-1>:
+    BoxLayout:
         size: root.size
         pos: root.pos
         orientation: "vertical"
@@ -150,30 +131,3 @@
             Button:
                 text: "Load"
                 on_release: root.load(filechooser.path, filechooser.selection)
-
-<SaveDialog>:
-    text_input: text_input
-    BoxLayout:
-        size: root.size
-        pos: root.pos
-        orientation: "vertical"
-        FileChooserListView:
-            id: filechooser
-            on_selection: text_input.text = self.selection and self.selection[0] or ''
-
-        TextInput:
-            id: text_input
-            size_hint_y: None
-            height: 30
-            multiline: False
-
-        BoxLayout:
-            size_hint_y: None
-            height: 30
-            Button:
-                text: "Cancel"
-                on_release: root.cancel()
-
-            Button:
-                text: "Save"
-                on_release: root.save(filechooser.path, text_input.text)
