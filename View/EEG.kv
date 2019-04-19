@@ -23,7 +23,7 @@
             BoxLayout:
                 TextInput:
                     id: text_input
-                    text: 'what is here'
+                    text: root.file_text
 
     TabbedPanelItem:
         text: 'settings'
@@ -43,7 +43,7 @@
                 on_release: root.listFeatures(self)
             Button:
                 text: "Choose Classification type:"
-                on_release: root.listAlgorithms()
+                on_release: root.listAlgorithms(self)
             Label:
                 text: 'define a test set: '
                 color: (0,0,0,1)
@@ -86,17 +86,6 @@
         size: root.size
         pos: root.pos
 
-        BoxLayout:
-            size_hint_y: None
-            height: sp(52)
-
-            Button:
-                text: 'Icon View'
-                on_press: fc.view_mode = 'icon'
-            Button:
-                text: 'List View'
-                on_press: fc.view_mode = 'list'
-
         FileChooser:
             id: fc
             FileChooserIconLayout
@@ -108,10 +97,15 @@
             Button:
                 text: "Cancel"
                 on_release: root.cancel()
-
             Button:
                 text: "Load"
                 on_release: root.load(fc.path, fc.selection)
+            Button:
+                text: 'Icon View'
+                on_press: fc.view_mode = 'icon'
+            Button:
+                text: 'List View'
+                on_press: fc.view_mode = 'list'
 
 <LoadDialog-1>:
     BoxLayout:

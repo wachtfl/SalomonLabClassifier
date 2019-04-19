@@ -9,6 +9,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.dropdown import DropDown
 from kivy.properties import ObjectProperty
 from kivy.properties import NumericProperty
+from kivy.properties import StringProperty
 
 import os
 
@@ -21,12 +22,7 @@ class CustomDropDown(DropDown):
 class LoadDialog(FloatLayout):
     load = ObjectProperty(None)
     cancel = ObjectProperty(None)
-
-
-class SaveDialog(FloatLayout):
-    save = ObjectProperty(None)
     text_input = ObjectProperty(None)
-    cancel = ObjectProperty(None)
 
 
 class Root(TabbedPanel):
@@ -34,6 +30,7 @@ class Root(TabbedPanel):
     text_input = ObjectProperty(None)
     model = SettingsM()
     e1 = NumericProperty(20)
+    file_text = StringProperty()
 
     def dismiss_popup(self):
         self._popup.dismiss()
@@ -46,7 +43,7 @@ class Root(TabbedPanel):
     def load(self, path, filename):
         print('path chosen: ', path, 'file chosen: ', filename)
         with open(os.path.join(path, filename[0])) as stream:
-            self.ids.text = stream.read()
+            self.file_text = stream.read()
 
     def build(self):
         return GridLayout()
@@ -62,7 +59,8 @@ class Root(TabbedPanel):
 #            dropdown.bind(on_select=lambda instance, x: setattr(mainbutton, 'text', x))
         dropdown.open(but)
 
-    def listAlgorithms(self):
+    def listAlgorithms(self, btn):
+        self.createDropDown(self.model.getAlgorithms(), btn)
         print(self.model.getAlgorithms())
 
     def listFeatures(self, btn):
