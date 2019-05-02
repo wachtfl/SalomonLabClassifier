@@ -20,3 +20,5 @@ for sid in subj_ids:
     print(len(data))
 
 
+# a = io.loadmat('C:/Users/efrat/ClassifierProject/results/EEG_data/sbj1/eeg_sorted_cond.mat')
+# print("ggggg")

@@ -1,15 +1,25 @@
-function x = creatingSortedData(sbjNumber, fileName1, fileName2) %fileName without the '.set' extension
+function numOfElectrodes = creatingSortedData(sbjNumber, fileName1, fileName2, electrodesToRemove) %fileName without the '.set' extension
 
-x = 1;
 cd '../raw data'
 
 file1 = strcat(fileName1, '.set');
 EEG1 = pop_loadset(file1);
 data1= EEG1.data;
 
+
 file2 = strcat(fileName2, '.set');
 EEG2 = pop_loadset(file2);
 data2 = EEG2.data;
+
+
+if nargin == 4 %we have electrodes to remove
+    for i=1:length(electrodesToRemove)
+        data1(electrodesToRemove(i),:,:)=[];
+        data2(electrodesToRemove(i),:,:)=[];
+    end
+end
+
+[numOfElectrodes, duumy, dummy] = size(data1);
 
 % Flip first and second dimensions of dataset to conform to DDTBOX format
 sorted_data1 = permute(data1, [2, 1, 3]);

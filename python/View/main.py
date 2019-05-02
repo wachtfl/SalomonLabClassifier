@@ -1,17 +1,17 @@
-from kivy.app import App
-from Model.Settings_m import SettingsM
-from kivy.uix.tabbedpanel import TabbedPanel
-from kivy.app import App
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.popup import Popup
-from kivy.uix.button import Button
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.dropdown import DropDown
-from kivy.properties import ObjectProperty
-from kivy.properties import NumericProperty
-from kivy.properties import StringProperty
-
 import os
+
+from kivy.app import App
+from kivy.properties import NumericProperty
+from kivy.properties import ObjectProperty
+from kivy.properties import StringProperty
+from kivy.uix.button import Button
+from kivy.uix.dropdown import DropDown
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.popup import Popup
+from kivy.uix.tabbedpanel import TabbedPanel
+
+from Model.Settings_m import SettingsM
 
 
 class CustomDropDown(DropDown):
@@ -38,6 +38,11 @@ class Root(TabbedPanel):
     def show_load(self):
         content = LoadDialog(load=self.load, cancel=self.dismiss_popup)
         self._popup = Popup(title="Load file", content=content, size_hint=(0.9, 0.9))
+        self._popup.open()
+
+    def showLoadExplanationPopup(self):
+        content = Button(text='Close me!')
+        popup = Popup(content=content, auto_dismiss=False)
         self._popup.open()
 
     def load(self, path, filename):

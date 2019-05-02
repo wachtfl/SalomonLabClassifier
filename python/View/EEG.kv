@@ -7,8 +7,15 @@
     size_hint: .8, .8
     pos_hint: {'center_x': .5, 'center_y': .5}
     do_default_tab: False
-
     text_input: text_input
+
+    TabbedPanelStrip:
+        canvas:
+            Color:
+                rgba: (0, 1, 0, 1) # green
+            Rectangle:
+                size: self.size
+                pos: self.pos
     TabbedPanelItem:
         text: 'data'
         BoxLayout:
@@ -18,6 +25,7 @@
                 height: 30
                 Button:
                     text: 'Load'
+                    #on_release: root.showLoadExplanationPopup()
                     on_release: root.show_load()
 
             BoxLayout:

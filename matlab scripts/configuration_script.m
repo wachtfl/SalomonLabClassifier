@@ -3,13 +3,23 @@
 % % Clears the workspace and closes all figure windows
 % clear variables;
 % close all;
-function a = configurateAndDecode(sbjNumber, analysis_mode, space_time_mode)
+function a = configurateAndDecode(sbjNumber, space_time_mode, electrodesToRemove)
+
+sbjNumber = 1;
+space_time_mode = 'fff';
+
+f = uifigure;
+message = sprintf('start classification process for sbject number %d,\n space-time mode: %s \n', sbjNumber, space_time_mode);
+uialert(f, message,'Success',...
+'Icon','success');
+
 a=2;
 %% create sorted data
 fileName1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej';
 fileName2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej';
 sbjNumber = 1;
-creatingSortedData(sbjNumber, fileName1, fileName2)
+electrodesToRemove = [2, 4, 6];
+numOfElectrodes = creatingSortedData(sbjNumber, fileName1, fileName2, electrodesToRemove)
 
 %% Select Subject Datasets and Discrimination Groups (dcgs)
 
@@ -76,7 +86,7 @@ data_struct_name = 'eeg_sorted_cond'; % Data arrays for use with DDTBOX must use
 
 %% EEG Dataset Information
 
-nchannels = 30; % Number of channels
+nchannels = numOfElectrodes; % Number of channels
 sampling_rate = 512; % Data sampling rate in Hz
 pointzero = 100; % Corresponds to the time of the event of interest (e.g. stimulus presentation) relative to the start of the epoch (in ms)
 
@@ -145,9 +155,9 @@ window_width_ms = 50; % Width of sliding analysis window in ms
 step_width_ms = 50; % Step size with which sliding analysis window is moved through the trial
 zscore_convert = 0; % Convert data into z-scores before decoding? 0 = no / 1 = yes
 cross_val_steps = 10; % How many cross-validation steps (if no runs available)?
-n_rep_cross_val = 10; % How many repetitions of full cross-validation with re-ordered data?
+n_rep_cross_val = 1 %was 10; % How many repetitions of full cross-validation with re-ordered data?
 perm_test = 1; % Run decoding using permuted condition labels? 0 = no / 1 = yes
-permut_rep = 10; % How many repetitions of full cross-validation for permuted labels analysis?
+permut_rep = 1 %was 10; % How many repetitions of full cross-validation for permuted labels analysis?
 
 % Feature weights extraction
 feat_weights_mode = 1; % Extract feature weights? 0 = no / 1 = yes
