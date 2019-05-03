@@ -26,24 +26,33 @@ class LoadDialog(FloatLayout):
 
 
 class Root(TabbedPanel):
+    file_to_save = 0
     loadfile = ObjectProperty(None)
     text_input = ObjectProperty(None)
     model = SettingsM()
     e1 = NumericProperty(20)
-    file_text = StringProperty()
+    file_name1 = StringProperty('no file')
+    file_name2 = StringProperty('no file')
 
     def dismiss_popup(self):
         self._popup.dismiss()
 
-    def show_load(self):
+    def show_load(self, num):
+        self.file_to_save = num
         content = LoadDialog(load=self.load, cancel=self.dismiss_popup)
         self._popup = Popup(title="Load file", content=content, size_hint=(0.9, 0.9))
         self._popup.open()
 
     def load(self, path, filename):
         print('path chosen: ', path, 'file chosen: ', filename)
-        with open(os.path.join(path, filename[0])) as stream:
-            self.file_text = stream.read()
+        print('type is: ', type(filename[0]))
+        if self.file_to_save == 1:
+            self.file_name1 = path
+        elif self.file_to_save == 2:
+            self.file_name2 = path
+
+ #       with open(os.path.join(path, filename[0])) as stream:
+ #           self.file_text = stream.read()
 
     def build(self):
         return GridLayout()
