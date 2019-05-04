@@ -5,34 +5,45 @@
 <Root>:
 
 
-    size_hint: .9, .9
+    size_hint: .95, .95
     pos_hint: {'center_x': .5, 'center_y': .5}
     do_default_tab: False
-    text_input: text_input
 
-    TabbedPanelStrip:
-        canvas:
-            Color:
-                rgba: (0, 1, 0, 1) # green
-            Rectangle:
-                size: self.size
-                pos: self.pos
+    background_color: (1, 1, 1, 1)    # White colour
+    border: [0, 0, 0, 0]
+    background_image: 'brain3.jpg'
+
     TabbedPanelItem:
         text: 'data'
         BoxLayout:
             orientation: 'vertical'
             BoxLayout:
+                orientation: 'horizontal'
                 size_hint_y: None
-                height: 30
+                height: 40
                 Button:
-                    text: 'Load'
-                    #on_release: root.showLoadExplanationPopup()
-                    on_release: root.show_load()
-
+                    text: 'Load A File From Computer'
+                    on_release: root.show_load(1)
+                    background_color: (0, 0, 1, 1)
+                Label:
+                    id:file_name1
+                    text: 'files chosen: {}'.format(root.file_name1)
+                    color: (0,0,0,1)
+                    bold: True
             BoxLayout:
-                TextInput:
-                    id: text_input
-                    text: root.file_text
+                orientation: 'horizontal'
+                size_hint_y: None
+                height: 40
+                Button:
+                    text: 'Load A File From Computer'
+                    on_release: root.show_load(2)
+                    background_color: (0, 0, 1, 1)
+                Label:
+                    id:file_name2
+                    text: 'files chosen: {}'.format(root.file_name2)
+                    color: (0,0,0,1)
+                    bold: True
+
 
     TabbedPanelItem:
         text: 'settings'
@@ -45,18 +56,31 @@
                 font_size: 90
                 font_name: 'Forte'
 
-            Button:
-                text: "Choose Classification Target: (features)"
-                background_color: (0, 0, 0, 1)
-                id: 'target'
-                on_release: root.listFeatures(self)
-            Button:
-                text: "Choose Classification type:"
-                on_release: root.listAlgorithms(self)
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint_y: None
+                height: 40
+                Button:
+                    text: "Classification Target: (features)"
+                    on_release: root.listFeatures(self)
+                Button:
+                    text: "Classification type:"
+                    on_release: root.listAlgorithms(self)
+                Button:
+                    text: "Choose __________"
+                    on_release: root.listFeatures(self)
+                Button:
+                    text: "Choose _____________"
+                    on_release: root.listAlgorithms(self)
+            Label:
+                size_hint_y: None
+                height: 80
             Label:
                 text: 'define a test set: '
                 color: (0,0,0,1)
                 bold: True
+                size_hint_y: None
+                height: 40
             Slider:
                 id: e1
                 value: 20
@@ -64,15 +88,22 @@
                 value_track: True
                 step: 1
                 on_value: root.on_slider_value_changed(*args)
+                size_hint_y: None
+                height: 40
 
             Label:
                 text: 'test set: {}%,  training set: {}%'.format(e1.value, 100-e1.value)
                 color: (0,0,0,1)
                 bold: True
+                size_hint_y: None
+                height: 40
 
             Button:
                 text: "Submit"
                 on_release: root.onSubmit()
+                size_hint_y: None
+                height: 40
+                background_color: (0,0,1,1)
     TabbedPanelItem:
         text: 'results'
         RstDocument:
@@ -83,11 +114,6 @@
         text: 'graph'
         Label:
             text: 'importing data files, selecting'
-        Image:
-            pos_hint: {'center_x': .5, 'center_y': .5}
-            size_hint: None, None
-            size: 450, 450
-            source: 'sameGraph.jpg'
 
 <LoadDialog>:
     BoxLayout:
@@ -123,6 +149,7 @@
         orientation: "vertical"
         FileChooserListView:
             id: filechooser
+            FileChooserListLayout
 
         BoxLayout:
             size_hint_y: None
