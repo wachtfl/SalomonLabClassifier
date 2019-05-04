@@ -14,6 +14,7 @@
     background_image: 'brain3.jpg'
 
     TabbedPanelItem:
+        id: data_tab
         text: 'data'
         BoxLayout:
             orientation: 'vertical'
@@ -27,7 +28,7 @@
                     background_color: (0, 0, 1, 1)
                 Label:
                     id:file_name1
-                    text: 'files chosen: {}'.format(root.file_name1)
+                    text: 'file chosen: {}'.format(root.file_name1)
                     color: (0,0,0,1)
                     bold: True
             BoxLayout:
@@ -40,9 +41,16 @@
                     background_color: (0, 0, 1, 1)
                 Label:
                     id:file_name2
-                    text: 'files chosen: {}'.format(root.file_name2)
+                    text: 'file chosen: {}'.format(root.file_name2)
                     color: (0,0,0,1)
                     bold: True
+
+            Button:
+                text: "Complete files choosing "
+                on_release: root.onComplete()
+                size_hint_y: None
+                height: 40
+                background_color: (0,0,1,1)
 
 
     TabbedPanelItem:
@@ -68,10 +76,10 @@
                     on_release: root.listAlgorithms(self)
                 Button:
                     text: "Choose __________"
-                    on_release: root.listFeatures(self)
+                    #on_release: root.listFeatures(self)
                 Button:
                     text: "Choose _____________"
-                    on_release: root.listAlgorithms(self)
+                    #on_release: root.listAlgorithms(self)
             Label:
                 size_hint_y: None
                 height: 80

@@ -2,18 +2,17 @@
 from Model.Data import Data
 
 class SettingsM:
-    def __init__(self, ):
-        self.data = Data(features=['a', 'b', 'c'])
-
+    def __init__(self, algList):
+        self.classifierTypes = algList
 
     target = None
-    classifierTypes = ['initialie here a list of classifier algorithms']
+    chosenClassifier = None
     numOfPermutations = 1  # or another default value?
     testSet = 20  # or another default value?
 
     def getAlgorithms(self):
         return self.classifierTypes
 
-    def getFeatures(self):
-        return self.data.getFeatures()
+    def setChosenAlgorithem(self, alg):
+        self.chosenClassifier = alg
 
