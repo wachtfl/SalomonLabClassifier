@@ -1,9 +1,14 @@
 from Model.Data import Data
 from Model.Settings_m import SettingsM
 
-class SettingsController:
+from Controllers.IAlgController import IAlgController
+from Controllers.SVMController import SVMController
+
+class SettingsController():
     dataModel = Data(2) #init here hoe many files need to be chosen
     settingsModel = SettingsM(['SVM', 'bbb', 'ggg']) # initialize any classification algorithms names here
+    algHandler = SVMController()    #change it later to initiate by type, and use IAlgController
+
 
     def getFeatures(self):
         return self.dataModel.getFeatures()
@@ -16,10 +21,19 @@ class SettingsController:
         if classifierType == "SVM": #change later to enum
             return ['spatial', 'temporal', 'spatio-tempral'] #also cahnge to enum
         else:
-            return 'SVM not chosen...'
+            return ['SVM not chosen...']
+
+    def setDecodingMode(self, mode):
+        self.algHandler.setDecodingMode(mode)
+
+    def setChosenAlgorithm(self, alg):
+        self.settingsModel.setChosenAlgorithem(alg)
 
     def getChosenAlgorithm(self):
         return self.settingsModel.getChosenAlgorithm()
+
+    def setTargetForClassification(self, target):
+        self.settingsModel.setTargetForClassification(target)
 
     def setPathToData(self, path, fileName):
         self.dataModel.setPath(path, fileName)

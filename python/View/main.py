@@ -16,7 +16,6 @@ from kivy.uix.tabbedpanel import TabbedPanel
 from Model.Settings_m import SettingsM
 from Controllers.SettingsController import SettingsController
 
-
 class CustomDropDown(DropDown):
     pass
     def select(self, feature):
@@ -39,8 +38,13 @@ class Root(TabbedPanel):
     file_name2 = StringProperty('no file')
 
     def showDecodingTypes(self, btn):
-        self.createDropDown(self.settingsController.getDecodingTypes(), btn, self.func)
+        self.createDropDown(self.settingsController.getDecodingTypes(), btn, self.onChooseDecodingMode)
 
+    def onChooseDecodingMode(self, mode):
+        self.settingsController.setDecodingMode(mode)
+
+    def onChooseAlgorithem(self, alg):
+        self.settingsController.setChosenAlgorithm(alg)
 
     def dismiss_popup(self):
         self._popup.dismiss()
@@ -96,11 +100,12 @@ class Root(TabbedPanel):
 # #            dropdown.bind(on_select=lambda instance, x: setattr(mainbutton, 'text', x))
 #         dropdown.open(but)
 
-    def createDropDown(self, list, but, func):
+    def createDropDown(self, list, but, funcOnSelect):
         dropdown = DropDown()
         for i in range(len(list)):
             btn = Button(text='%s' % str(list[i]), size_hint_y=None, height=44)
-            btn.bind(on_release=lambda btn: func(btn.text))
+            btn.bind(on_release=lambda btn: dropdown.select(btn.text))
+            btn.bind(on_release=lambda btn: funcOnSelect(btn.text))
             dropdown.add_widget(btn)
         dropdown.open(but)
 
@@ -109,12 +114,13 @@ class Root(TabbedPanel):
 
 
     def listAlgorithms(self, btn):
-        self.createDropDown(self.settingsController.getAlgorithms(), btn, self.func)
-       # print(self.settingsController.getAlgorithms())
+        self.createDropDown(self.settingsController.getAlgorithms(), btn, self.onChooseAlgorithem)
 
     def listFeatures(self, btn):
-        self.createDropDown(self.settingsController.getFeatures(), btn, self.func)
-        #print(self.settingsController.getFeatures())
+        self.createDropDown(self.settingsController.getFeatures(), btn, self.onChooseTarget)
+
+    def onChooseTarget(self, target):
+        self.settingsController.setTargetForClassification(target)
 
     def onSubmit(self):
         print("test set is: ", self.e1)

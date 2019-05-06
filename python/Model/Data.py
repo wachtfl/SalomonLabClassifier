@@ -14,7 +14,7 @@ class Data:
         if self.features != None:
             return self.features
         else:
-            return ['data features are not initialized']
+            return ['a', 'b', 'c']#['data features are not initialized']
 
     def setNumOfFiles(self, num):
         self.numOfFiles = num
