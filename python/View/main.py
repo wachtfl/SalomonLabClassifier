@@ -18,6 +18,7 @@ from Controllers.SettingsController import SettingsController
 
 
 class CustomDropDown(DropDown):
+    pass
     def select(self, feature):
         print(feature, ' was selected')
 
@@ -36,6 +37,10 @@ class Root(TabbedPanel):
     e1 = NumericProperty(20)
     file_name1 = StringProperty('no file')
     file_name2 = StringProperty('no file')
+
+    def showDecodingTypes(self, btn):
+        self.createDropDown(self.settingsController.getDecodingTypes(), btn, self.func)
+
 
     def dismiss_popup(self):
         self._popup.dismiss()
@@ -76,27 +81,40 @@ class Root(TabbedPanel):
     def build(self):
         return GridLayout()
 
-    def createDropDown(self, list, but):
-        dropdown = CustomDropDown()
+    def func(self, text):
+        print(text)
+
+#     def createDropDown(self, list, but):
+#         dropdown = CustomDropDown()
+#         for i in range(len(list)):
+#             btn = Button(text='%s' % str(list[i]), size_hint_y=None, height=44)
+#             btn.bind(on_release=lambda btn: dropdown.select(btn.text))
+#             #btn.bind(on_release=func(btn.text))
+#             dropdown.add_widget(btn)
+# #            mainbutton = Button(text='Hello', size_hint=(None, None))
+# #            mainbutton.bind(on_release=dropdown.open)
+# #            dropdown.bind(on_select=lambda instance, x: setattr(mainbutton, 'text', x))
+#         dropdown.open(but)
+
+    def createDropDown(self, list, but, func):
+        dropdown = DropDown()
         for i in range(len(list)):
             btn = Button(text='%s' % str(list[i]), size_hint_y=None, height=44)
-            btn.bind(on_release=lambda btn: dropdown.select(btn.text))
+            btn.bind(on_release=lambda btn: func(btn.text))
             dropdown.add_widget(btn)
-#            mainbutton = Button(text='Hello', size_hint=(None, None))
-#            mainbutton.bind(on_release=dropdown.open)
-#            dropdown.bind(on_select=lambda instance, x: setattr(mainbutton, 'text', x))
         dropdown.open(but)
 
     def getPathToData(self):
         return StringProperty(self.settingsController.getPathToData())
 
+
     def listAlgorithms(self, btn):
-        self.createDropDown(self.settingsController.getAlgorithms(), btn)
-        print(self.settingsController.getAlgorithms())
+        self.createDropDown(self.settingsController.getAlgorithms(), btn, self.func)
+       # print(self.settingsController.getAlgorithms())
 
     def listFeatures(self, btn):
-        self.createDropDown(self.settingsController.getFeatures(), btn)
-        print(self.settingsController.getFeatures())
+        self.createDropDown(self.settingsController.getFeatures(), btn, self.func)
+        #print(self.settingsController.getFeatures())
 
     def onSubmit(self):
         print("test set is: ", self.e1)

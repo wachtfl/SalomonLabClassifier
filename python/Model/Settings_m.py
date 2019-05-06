@@ -16,3 +16,6 @@ class SettingsM:
     def setChosenAlgorithem(self, alg):
         self.chosenClassifier = alg
 
+    def getChosenAlgorithm(self):
+        return self.chosenClassifier
+

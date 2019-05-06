@@ -29,7 +29,8 @@ class Data:
         if self.pathToData != None:
             return self.pathToData
         else:
-            return ['Data is not initialized']
+            #return ['Data is not initialized']
+            return [1,2,3]
 
     def setPath(self, path, fileName):
         self.pathToDataDir.append(path)
