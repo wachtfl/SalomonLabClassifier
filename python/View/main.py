@@ -56,13 +56,13 @@ class Root(TabbedPanel):
         self._popup.open()
 
     def load(self, path, fileName):
-        print('path chosen: ', path, 'file chosen: ', fileName)
+        print('path chosen: ', path, 'file chosen: ', fileName[0])
         #print('type is: ', type(filename[0]))
         if self.file_to_save == 1:
-            self.file_name1 = path
+            self.file_name1 = fileName[0]
         elif self.file_to_save == 2:
-            self.file_name2 = path
-        self.settingsController.setPathToData(path, fileName)
+            self.file_name2 = fileName[0]
+        self.settingsController.setPathToData(path, fileName[0])
         self.dismiss_popup()
 
     def createWarningPopUp(self, msg):
@@ -124,6 +124,8 @@ class Root(TabbedPanel):
 
     def onSubmit(self):
         print("test set is: ", self.e1)
+        # set values if needed:
+        self.settingsController.finishAndRunAlgorithm()
 
     def on_slider_value_changed(self, instance, value):
         self.e1 = value

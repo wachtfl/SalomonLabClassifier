@@ -22,8 +22,8 @@ class Data:
     def getNumOfFiles(self):
         return self.numOfFiles
 
-    def setFeatures(self, featues):
-        self.features = featues
+    def setFeatures(self, features):
+        self.features = features
 
     def getPathSToData(self):
         if self.pathToData != None:
@@ -31,6 +31,9 @@ class Data:
         else:
             #return ['Data is not initialized']
             return [1,2,3]
+
+    def getPathsToDataDirs(self):
+        return self.pathToDataDir
 
     def setPath(self, path, fileName):
         self.pathToDataDir.append(path)

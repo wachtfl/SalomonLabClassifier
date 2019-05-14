@@ -16,7 +16,7 @@ class CustomDropDown(DropDown):
     pass
 
 class SettingsScreen(Screen):
-    model = SettingsM()
+    model = SettingsM(["svm"])
     e1 = NumericProperty(20)
 
     def build(self):

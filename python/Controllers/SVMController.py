@@ -1,6 +1,13 @@
 
 from Controllers.IAlgController import IAlgController
+import matlab.engine
+from enum import Enum
+from Model import Def
 
+class DECODING_MODES(Enum):
+    SPATIAL = 1
+    TEMPORAL = 2
+    SPATIO_TEMPORAL = 3
 
 class SVMController(IAlgController):
 
@@ -11,7 +18,23 @@ class SVMController(IAlgController):
         return self.decodingMode
 
     def setDecodingMode(self, mode):
-        self.decodingMode = mode
-        print('from SVM Controller, decoding mode set is: ' + self.decodingMode)
+        if mode == Def.DECODING_MODES.SPATIAL:
+            self.decodingMode = DECODING_MODES.SPATIAL.value
+        if mode == Def.DECODING_MODES.TEMPORAL:
+            self.decodingMode = DECODING_MODES.TEMPORAL.value
+        if mode == Def.DECODING_MODES.SPATIO_TEMPORAL:
+            self.decodingMode = DECODING_MODES.SPATIO_TEMPORAL.value
 
+        print('from SVM Controller, decoding mode set is: ' + mode, ' ,number: '+ str(self.decodingMode))
+
+    def runAlgorithm(self, paramsList):
+        eng = matlab.engine.start_matlab()
+
+        sbjNumber = paramsList[0]
+
+        eng.configuration_script(sbjNumber, self.decodingMode, [2, 4, 6])
+        # configurateAndDecode(sbjNumber, space_time_mode, electrodesToRemove)
+        person = input('Enter your name: ')
+        tf = eng.isprime(37)
+        print(tf)
 

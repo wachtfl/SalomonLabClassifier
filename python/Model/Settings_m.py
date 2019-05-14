@@ -1,10 +1,11 @@
 
 from Model.Data import Data
+from Model import Def
 
 class SettingsM:
     def __init__(self, algList):
         self.classifierTypes = algList
-        chosenClassifier = None
+        self.chosenClassifier = Def.ALGORITHMS.SVM # default value
         target = None
         numOfPermutations = 1  # or another default value?
         testSet = 20  # or another default value?

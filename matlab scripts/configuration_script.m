@@ -13,7 +13,14 @@ message = sprintf('start classification process for sbject number %d,\n space-ti
 uialert(f, message,'Success',...
 'Icon','success');
 
-a=2;
+% pause(0.02);  % Or DRAWNOW
+% cmdWinDoc = com.mathworks.mde.cmdwin.CmdWinDocument.getInstance;
+% jString   = cmdWinDoc.getText(cmdWinDoc.getStartPosition.getOffset, ...
+%                                      cmdWinDoc.getLength);
+
+%com.mathworks.mde.desk.MLDesktop.getInstance.showCommandWindow
+
+
 %% create sorted data
 fileName1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej';
 fileName2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej';

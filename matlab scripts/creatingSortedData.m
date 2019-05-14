@@ -1,6 +1,6 @@
 function numOfElectrodes = creatingSortedData(sbjNumber, fileName1, fileName2, electrodesToRemove) %fileName without the '.set' extension
 
-cd '../raw data'
+cd '../../raw data'
 
 file1 = strcat(fileName1, '.set');
 EEG1 = pop_loadset(file1);
