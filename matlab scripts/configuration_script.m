@@ -3,16 +3,16 @@
 % % Clears the workspace and closes all figure windows
 % clear variables;
 % close all;
-function a = configurateAndDecode(sbjNumber,file1, file2, space_time_mode, electrodesToRemove)
+function a = configurateAndDecode(file1, file2, space_time_mode, electrodesToRemove)
 
 fromMatlab = 0;
+% --------------------------IMPORTANAT ------------------------------
 % take this mocked values if running not from python:
-% fromMatlab = 1;
-% sbjNumber = 535;
-% space_time_mode = 2;
-% file1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
-% file2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
-
+fromMatlab = 1;
+space_time_mode = 2;
+file1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
+file2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
+% --------------------------------------------------------------------
 stmodeStr = "";
 if space_time_mode == 1
     stmodeStr = 'Spatial';
@@ -24,24 +24,20 @@ if space_time_mode == 3
     stmodeStr = 'Spatio-Temporal';
 end
         
-f = uifigure;
-message = sprintf('start classification process for sbject number %d,\n mode: %s \n, file names:%s \n %s ', sbjNumber, stmodeStr, file1, file2);
-uialert(f, message,'Success',...
-'Icon','success');
+% f = uifigure;
+% message = sprintf('start classification process for sbject number %d,\n mode: %s \n, file names:%s \n %s ', sbjNumber, stmodeStr, file1, file2);
+% uialert(f, message,'Success',...
+% 'Icon','success');
 
-% pause(0.02);  % Or DRAWNOW
-% cmdWinDoc = com.mathworks.mde.cmdwin.CmdWinDocument.getInstance;
-% jString   = cmdWinDoc.getText(cmdWinDoc.getStartPosition.getOffset, ...
-%                                      cmdWinDoc.getLength);
 
-%com.mathworks.mde.desk.MLDesktop.getInstance.showCommandWindow
-
+ans = inputdlg('Enter Subject Number:')
+sbjNumber = ans{1}
 
 %% create sorted data
 fileName1 = file1;
 fileName2 = file2;
 %electrodesToRemove = [2, 4, 6];
-[numOfElectrodes, samplingRate] = creatingSortedData(sbjNumber, fileName1, fileName2)%, electrodesToRemove)
+[numOfElectrodes, samplingRate] = creatingSortedData(fromMatlab, sbjNumber, fileName1, fileName2)%, electrodesToRemove)
 
 %% Select Subject Datasets and Discrimination Groups (dcgs)
 
@@ -96,7 +92,7 @@ end
 % 
 %     };
     
-sbj_str = strcat('EEG_data/sbj', num2str(sbjNumber), '/eeg_sorted_cond');
+sbj_str = strcat('EEG_data/sbj',sbjNumber, '/eeg_sorted_cond');
 sbj_code = {...
 
     sbj_str;... % subject 1

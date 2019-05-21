@@ -1,6 +1,6 @@
-function [numOfElectrodes, samplingRate] = creatingSortedData(sbjNumber, fileName1, fileName2, electrodesToRemove) %fileName WITH the '.set' extension
+function [numOfElectrodes, samplingRate] = creatingSortedData(fromMatlab, sbjNumber, fileName1, fileName2, electrodesToRemove) %fileName WITH the '.set' extension
 
-
+% fromMatlab = 1
 % sbjNumber = 109
 % fileName1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
 % fileName2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
@@ -19,7 +19,7 @@ data2 = EEG2.data;
 chaninfo = EEG1.chaninfo
 chanlocs = EEG1.chanlocs
 
-if nargin == 4 %we have electrodes to remove
+if nargin == 5 %we have electrodes to remove -CHANGE THIS TO IF ELECTRODES TO REMOVE NOT EMPTY OR SOMTHING..
     for i=1:length(electrodesToRemove)
         data1(electrodesToRemove(i),:,:)=[];
         data2(electrodesToRemove(i),:,:)=[];
@@ -41,18 +41,25 @@ eeg_sorted_cond{1,2} = {};
 eeg_sorted_cond{1, 1} = data1
 eeg_sorted_cond{1, 2} = data2
 
-path = strcat('../../results/EEG_data/sbj', num2str(sbjNumber));
-pathToSave = strcat(path, '/eeg_sorted_cond.mat')
-if ~exist(path, 'dir')
-   mkdir(path)
+
+
+pathToDir = strcat('../../results/EEG_data/sbj', sbjNumber);
+pathToChan = '../../results/Channel Locations/channel_inf.mat'
+pwd
+if fromMatlab == 1
+    pathToDir = strcat('../results/EEG_data/sbj', sbjNumber);
+    pathToChan = '../results/Channel Locations/channel_inf.mat'
+end
+
+
+pathToSave = strcat(pathToDir, '/eeg_sorted_cond.mat')
+if ~exist(pathToDir, 'dir')
+   mkdir(pathToDir)
 end
 save(pathToSave, 'eeg_sorted_cond');
 
-% cd '../raw data'
-pwd
-path = '../../results/Channel Locations/channel_inf.mat'
-if ~exist(path, 'dir')
-   mkdir(path)
+if ~exist(pathToChan, 'dir')
+   mkdir(pathToChan)
 end
-save(path,'chaninfo','chanlocs')
+save(pathToChan,'chaninfo','chanlocs')
 

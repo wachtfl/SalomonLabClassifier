@@ -16,14 +16,6 @@
     TabbedPanelItem:
         id: data_tab
         text: 'data'
-        GridLayout:
-            rows: 1
-            TextInput:
-                id: ti # <---
-                size_hint_y: None
-                height: 30
-                font_size: 20
-                hint_text: "Enter subject number"
         BoxLayout:
             orientation: 'vertical'
 
@@ -77,8 +69,6 @@
                 orientation: 'horizontal'
                 size_hint_y: 0.2
                 height: 10
-                TextInput:
-                    id: sbjNumber
                 #Button:
                 #   text: "Classification Target: (features)"
                 #   on_release: root.listFeatures(self)
@@ -95,21 +85,6 @@
                 orientation: 'vertical'
                 size_hint_y: None
                 height: 50
-                Label:
-                    text: "Cross Validatition"
-                    bold: True
-                    font_size: 40
-                    font_name: 'Forte'
-
-                BoxLayout:
-                    orientation: 'horizontal'
-                    size_hint_y: None
-                    height: 40
-                    Label:
-                        text: "Subject Number:"
-                    TextInput:
-                        id: sbjNumber
-                        width: 5
 
             Label:
                 size_hint_y: None
