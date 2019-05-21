@@ -3,13 +3,29 @@
 % % Clears the workspace and closes all figure windows
 % clear variables;
 % close all;
-function a = configurateAndDecode(sbjNumber, space_time_mode, electrodesToRemove)
+function a = configurateAndDecode(sbjNumber,file1, file2, space_time_mode, electrodesToRemove)
 
-sbjNumber = 1;
-space_time_mode = 'fff';
+fromMatlab = 0;
+% take this mocked values if running not from python:
+% fromMatlab = 1;
+% sbjNumber = 535;
+% space_time_mode = 2;
+% file1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
+% file2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
 
+stmodeStr = "";
+if space_time_mode == 1
+    stmodeStr = 'Spatial';
+end
+if space_time_mode == 2
+   stmodeStr = 'Temporal';
+end
+if space_time_mode == 3
+    stmodeStr = 'Spatio-Temporal';
+end
+        
 f = uifigure;
-message = sprintf('start classification process for sbject number %d,\n space-time mode: %s \n', sbjNumber, space_time_mode);
+message = sprintf('start classification process for sbject number %d,\n mode: %s \n, file names:%s \n %s ', sbjNumber, stmodeStr, file1, file2);
 uialert(f, message,'Success',...
 'Icon','success');
 
@@ -22,11 +38,10 @@ uialert(f, message,'Success',...
 
 
 %% create sorted data
-fileName1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej';
-fileName2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej';
-sbjNumber = 1;
-electrodesToRemove = [2, 4, 6];
-numOfElectrodes = creatingSortedData(sbjNumber, fileName1, fileName2, electrodesToRemove)
+fileName1 = file1;
+fileName2 = file2;
+%electrodesToRemove = [2, 4, 6];
+[numOfElectrodes, samplingRate] = creatingSortedData(sbjNumber, fileName1, fileName2)%, electrodesToRemove)
 
 %% Select Subject Datasets and Discrimination Groups (dcgs)
 
@@ -56,32 +71,41 @@ cross = 0;
 study_name = 'EXAMPLE';
 
 % Base directory path (where single subject EEG datasets and channel locations files are stored)
-bdir = '../results/';
+bdir = '../../results/';
 
 % Output directory (where decoding results will be saved)
-output_dir = '../results/Decoding_Results/';
-    
+output_dir = '../../results/Decoding_Results/';
+
+if fromMatlab == 1
+    % Base directory path (where single subject EEG datasets and channel locations files are stored)  
+    bdir = '../results/';
+
+    % Output directory (where decoding results will be saved)
+    output_dir = '../results/Decoding_Results/';  
+end
 %Filepaths of single subject datasets (relative to the base directory)
-sbj_code = {...
 
-    ['EEG_data/sbj1/eeg_sorted_cond'];... % subject 1
-   % ['EEG Data/sbj2'];... % subject 2 
-   % ['EEG Data/sbj3'];... % subject 3
-   % ['EEG Data/sbj4'];... % subject 4
-   % ['EEG Data/sbj5'];... % subject 5
-
-    };
-    
-% sbj_str = strcat('EEG_data/sbj', num2str(sbjNumber), '/eeg_sorted_cond');
+% path = strcat('EEG_data/sbj', num2str(sbjNumber),'/eeg_sorted_cond');
 % sbj_code = {...
 % 
-%     sbj_str;... % subject 1
+%     [path];... % subject 1
 %    % ['EEG Data/sbj2'];... % subject 2 
 %    % ['EEG Data/sbj3'];... % subject 3
 %    % ['EEG Data/sbj4'];... % subject 4
 %    % ['EEG Data/sbj5'];... % subject 5
 % 
 %     };
+    
+sbj_str = strcat('EEG_data/sbj', num2str(sbjNumber), '/eeg_sorted_cond');
+sbj_code = {...
+
+    sbj_str;... % subject 1
+   % ['EEG Data/sbj2'];... % subject 2 
+   % ['EEG Data/sbj3'];... % subject 3
+   % ['EEG Data/sbj4'];... % subject 4
+   % ['EEG Data/sbj5'];... % subject 5
+
+    };
 
 % Automatically calculates number of subjects from the number of data files
 nsbj = size(sbj_code, 1);
@@ -94,8 +118,8 @@ data_struct_name = 'eeg_sorted_cond'; % Data arrays for use with DDTBOX must use
 %% EEG Dataset Information
 
 nchannels = numOfElectrodes; % Number of channels
-sampling_rate = 512; % Data sampling rate in Hz
-pointzero = 100; % Corresponds to the time of the event of interest (e.g. stimulus presentation) relative to the start of the epoch (in ms)
+sampling_rate = samplingRate; % Data sampling rate in Hz
+pointzero = 600; % Corresponds to the time of the event of interest (e.g. stimulus presentation) relative to the start of the epoch (in ms)
 
 % For plotting single subject temporal decoding results 
 % (not required if performing spatial or spatiotemporal decoding)
@@ -143,7 +167,10 @@ svr_cond_labels{1} = [1];
 % Usage: dcg_labels{Discrimination group number} = 'Name of discrimination group'
 % Example: dcg_labels{1} = 'Correct vs. Error Responses';
 
-dcg_labels{1} = 'Right vs. Left_Hand - SVM temporal decoding';
+
+%file1 = strcat(fileName1, '.set');
+
+dcg_labels{1} = strcat(stmodeStr, ' SVM decoding - Right vs Left Hand');
 %dcg_labels{2} = 'B vs. D';
 
 % This section automaticallly fills in various parameters related to dcgs and conditions 
@@ -156,7 +183,7 @@ ncond = size(cond_labels, 2);
 %% Multivariate Classification/Regression Parameters
 
 analysis_mode = 1; % ANALYSIS mode (1 = SVM classification with LIBSVM / 2 = SVM classification with LIBLINEAR / 3 = SVR with LIBSVM)
-stmode = 2; % SPACETIME mode (1 = spatial / 2 = temporal / 3 = spatio-temporal)
+stmode = space_time_mode; % SPACETIME mode (1 = spatial / 2 = temporal / 3 = spatio-temporal)
 avmode = 1; % AVERAGE mode (1 = no averaging; use single-trial data / 2 = use run-averaged data). Note: Single trials needed for SVR
 window_width_ms = 50; % Width of sliding analysis window in ms
 step_width_ms = 50; % Step size with which sliding analysis window is moved through the trial
@@ -239,3 +266,15 @@ for dcg_set = 1:length(dcgs_for_analyses)
     end % of for sbj
     
 end % of for dcg_set
+
+%% save images:
+FolderName = output_dir;   % Your destination folder
+FigList = findobj(allchild(0), 'flat', 'Type', 'figure');
+for iFig = 1:length(FigList)
+  FigHandle = FigList(iFig);
+  set(0, 'CurrentFigure', FigHandle);
+  h1=gca; 
+  title=h1.Title.String;
+  FigName = title;
+  saveas(FigHandle, fullfile(FolderName, [FigName, '.png']));
+end

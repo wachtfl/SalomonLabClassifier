@@ -29,7 +29,7 @@ class MyLabelHandler(logging.Handler):
         Clock.schedule_once(f)
 
 
-class MyApp(App):
+class MainWindowApp(App):
     def build(self):
         label = Label(text="showing the log here")
 
@@ -43,4 +43,4 @@ class MyApp(App):
 
 
 if __name__ == '__main__':
-    MyApp().run()
+    MainWindowApp().run()
