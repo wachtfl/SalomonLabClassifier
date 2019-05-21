@@ -5,11 +5,11 @@
 % close all;
 function a = configurateAndDecode(sbjNumber,file1, file2, space_time_mode, electrodesToRemove)
 
-% take this mocked values if running not from python:
-sbjNumber = 535;
-space_time_mode = 2;
-file1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
-file2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
+% % take this mocked values if running not from python:
+% sbjNumber = 535;
+% space_time_mode = 2;
+% file1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
+% file2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
 
 stmodeStr = "";
 if space_time_mode == 1
