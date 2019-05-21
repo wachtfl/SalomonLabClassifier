@@ -5,13 +5,12 @@
 % close all;
 function a = configurateAndDecode(sbjNumber,file1, file2, space_time_mode, electrodesToRemove)
 
-fromMatlab = 0;
 % take this mocked values if running not from python:
-% fromMatlab = 1;
-% sbjNumber = 535;
-% space_time_mode = 2;
-% file1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
-% file2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
+fromMatlab = 1
+sbjNumber = 535;
+space_time_mode = 2;
+file1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
+file2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
 
 stmodeStr = "";
 if space_time_mode == 1
@@ -76,13 +75,8 @@ bdir = '../../results/';
 % Output directory (where decoding results will be saved)
 output_dir = '../../results/Decoding_Results/';
 
-if fromMatlab == 1
-    % Base directory path (where single subject EEG datasets and channel locations files are stored)  
-    bdir = '../results/';
 
-    % Output directory (where decoding results will be saved)
-    output_dir = '../results/Decoding_Results/';  
-end
+
 %Filepaths of single subject datasets (relative to the base directory)
 
 % path = strcat('EEG_data/sbj', num2str(sbjNumber),'/eeg_sorted_cond');
