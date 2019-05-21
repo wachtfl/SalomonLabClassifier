@@ -25,7 +25,7 @@ class Data:
     def setFeatures(self, features):
         self.features = features
 
-    def getPathSToData(self):
+    def getPathToData(self):
         if self.pathToData != None:
             return self.pathToData
         else:

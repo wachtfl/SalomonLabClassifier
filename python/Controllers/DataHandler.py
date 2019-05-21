@@ -12,11 +12,12 @@ class DataHandler:
         self.data = data
 
     def fileChoosingCompleted(self):
-        #copy the files to /raw data
-        paths = self.data.getPathSToData()
+        pass
+        # copy the files to /raw data
+        paths = self.data.getPathToData()
         pathsToDirs = self.data.getPathsToDataDirs()
         currentDir = os.getcwd()
-        rawDataDir = currentDir + '\..\..\\raw data'
+        rawDataDir = currentDir + '\..\..\raw data'
         for i in range(len(paths)):
             try:
                 shutil.copy2(paths[i], rawDataDir)

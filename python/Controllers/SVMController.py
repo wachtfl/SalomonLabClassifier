@@ -11,8 +11,9 @@ class DECODING_MODES(Enum):
 
 class SVMController(IAlgController):
 
-    def SVMController(self):
+    def __init__(self, dataModel):
        decodingMode = None
+       self.dataModel = dataModel
 
     def getDecodingMode(self):
         return self.decodingMode
@@ -32,8 +33,8 @@ class SVMController(IAlgController):
 
         sbjNumber = paramsList[0]
 
-        eng.configuration_script(sbjNumber, self.decodingMode, [2, 4, 6])
-        # configurateAndDecode(sbjNumber, space_time_mode, electrodesToRemove)
+        eng.configuration_script(sbjNumber, self.dataModel.getPathToData()[0], self.dataModel.getPathToData()[1], self.decodingMode, [2, 4, 6])
+        # eng.configurateAndDecode(sbjNumber, self.dataModel.getPathToData()[0], self.dataModel.getPathToData()[1], self.decodingMode, [2, 4, 6])
         person = input('Enter your name: ')
         tf = eng.isprime(37)
         print(tf)

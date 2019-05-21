@@ -6,12 +6,13 @@ from Controllers.IAlgController import IAlgController
 from Controllers.SVMController import SVMController
 
 class SettingsController():
+
     dataModel = Data(2) #init here hoe many files need to be chosen
-    #algs = [attr for attr in dir(Def.ALGORITHMS) if not callable(getattr(Def.ALGORITHMS, attr)) and not attr.startswith("__")]  # initialize any classification algorithms names in Def.ALGORITHMS
+
     algs = [Def.ALGORITHMS.SVM, Def.ALGORITHMS.NN]
     settingsModel = SettingsM(algs)
 
-    algHandler = SVMController()    #change it later to initiate by type, and use IAlgController
+    algHandler = SVMController(dataModel) #change it later to initiate by type, and use IAlgController
     dataHandler = DataHandler(dataModel)
 
     def getFeatures(self):

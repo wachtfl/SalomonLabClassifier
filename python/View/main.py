@@ -1,6 +1,5 @@
 import os
 
-
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.properties import NumericProperty
@@ -122,7 +121,7 @@ class Root(TabbedPanel):
     def onChooseTarget(self, target):
         self.settingsController.setTargetForClassification(target)
 
-    def onSubmit(self):
+    def onStartDecoding(self):
         print("test set is: ", self.e1)
         # set values if needed:
         self.settingsController.finishAndRunAlgorithm()
