@@ -115,9 +115,7 @@
     TabbedPanelItem:
         text: 'results'
         RstDocument:
-            text:
-                '\\n'.join(("Hello world", "-----------",
-                "You are in the third tab."))
+            text: root.log_buf
     TabbedPanelItem:
         text: 'graph'
         Label:
