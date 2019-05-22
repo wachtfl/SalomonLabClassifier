@@ -33,7 +33,7 @@ class SVMController(IAlgController):
 
         sbjNumber = paramsList[0]
 
-        eng.configuration_script(sbjNumber, self.dataModel.getPathToData()[0], self.dataModel.getPathToData()[1], self.decodingMode, [2, 4, 6])
+        eng.configuration_script(self.dataModel.getPathToData()[0], self.dataModel.getPathToData()[1], self.decodingMode, [2, 4, 6])
         # eng.configurateAndDecode(sbjNumber, self.dataModel.getPathToData()[0], self.dataModel.getPathToData()[1], self.decodingMode, [2, 4, 6])
         person = input('Enter your name: ')
         tf = eng.isprime(37)
