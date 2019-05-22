@@ -8,10 +8,10 @@ function a = configurateAndDecode(file1, file2, space_time_mode, electrodesToRem
 fromMatlab = 0;
 % --------------------------IMPORTANAT ------------------------------
 % take this mocked values if running not from python:
-% fromMatlab = 1;
-% space_time_mode = 2;
-% file1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
-% file2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
+fromMatlab = 1;
+space_time_mode = 2;
+file1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
+file2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
 % --------------------------------------------------------------------
 stmodeStr = "";
 if space_time_mode == 1
@@ -30,8 +30,12 @@ end
 % 'Icon','success');
 
 
-ans = inputdlg('Enter Subject Number:')
-sbjNumber = ans{1}
+fromUser = inputdlg({'Enter Subject Number:', 'Number of cross-validation steps (k)?','Number of repetitions of full CV with re-ordered data(1 and up):','Run decoding using permuted condition labels? 0 = no / 1 = yes','Number of repetitions of full CV for permuted labels analysis (1 and up)'})
+sbjNumber = fromUser{1};
+kFromUser = str2num(fromUser{2});
+numRepFromUser = str2num(fromUser{3});
+permuteFromUser = str2num(fromUser{4});
+numCVPermuteFromUser = str2num(fromUser{5});
 
 %% create sorted data
 fileName1 = file1;
@@ -166,7 +170,7 @@ svr_cond_labels{1} = [1];
 
 %file1 = strcat(fileName1, '.set');
 
-dcg_labels{1} = strcat(stmodeStr, ' SVM decoding - Right vs Left Hand');
+dcg_labels{1} = strcat(stmodeStr, ' SVM decoding');
 %dcg_labels{2} = 'B vs. D';
 
 % This section automaticallly fills in various parameters related to dcgs and conditions 
@@ -184,10 +188,10 @@ avmode = 1; % AVERAGE mode (1 = no averaging; use single-trial data / 2 = use ru
 window_width_ms = 50; % Width of sliding analysis window in ms
 step_width_ms = 50; % Step size with which sliding analysis window is moved through the trial
 zscore_convert = 0; % Convert data into z-scores before decoding? 0 = no / 1 = yes
-cross_val_steps = 10; % How many cross-validation steps (if no runs available)?
-n_rep_cross_val = 1 %was 10; % How many repetitions of full cross-validation with re-ordered data?
-perm_test = 1; % Run decoding using permuted condition labels? 0 = no / 1 = yes
-permut_rep = 1 %was 10; % How many repetitions of full cross-validation for permuted labels analysis?
+cross_val_steps = kFromUser; % How many cross-validation steps (if no runs available)?
+n_rep_cross_val = numRepFromUser; %was 10; % How many repetitions of full cross-validation with re-ordered data?
+perm_test = permuteFromUser; % Run decoding using permuted condition labels? 0 = no / 1 = yes
+permut_rep = numCVPermuteFromUser; %was 10; % How many repetitions of full cross-validation for permuted labels analysis?
 
 % Feature weights extraction
 feat_weights_mode = 1; % Extract feature weights? 0 = no / 1 = yes
