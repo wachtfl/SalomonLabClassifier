@@ -4,6 +4,8 @@ from Controllers.DataHandler import DataHandler
 from Model import Def
 from Controllers.IAlgController import IAlgController
 from Controllers.SVMController import SVMController
+import threading
+
 
 class SettingsController():
 
@@ -41,11 +43,13 @@ class SettingsController():
     def setTargetForClassification(self, target):
         self.settingsModel.setTargetForClassification(target)
 
-    def finishAndRunAlgorithm(self):
-        #crate paramList accoding to the chosen algorithm:
-        sbjNumber = 3 #get from user...
-        params = [sbjNumber]
-        self.algHandler.runAlgorithm(params)
+    def startDecoding(self):
+        # check that all params are set - 2 data files, algorithm and decoding mode:
+        try:
+            t = threading.Thread(target=self.algHandler.runAlgorithm)
+            t.start()
+        except:
+            print("Error: unable to start thread for decoding")
 
 
     def setPathToData(self, path, fileName):

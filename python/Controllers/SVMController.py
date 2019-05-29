@@ -12,7 +12,7 @@ class DECODING_MODES(Enum):
 class SVMController(IAlgController):
 
     def __init__(self, dataModel):
-       decodingMode = None
+       decodingMode = DECODING_MODES.SPATIAL.value # default value
        self.dataModel = dataModel
 
     def getDecodingMode(self):
@@ -28,14 +28,8 @@ class SVMController(IAlgController):
 
         print('from SVM Controller, decoding mode set is: ' + mode, ' ,number: '+ str(self.decodingMode))
 
-    def runAlgorithm(self, paramsList):
+    def runAlgorithm(self):
         eng = matlab.engine.start_matlab()
+        eng.configuration_script(self.dataModel.getPathToData()[0], self.dataModel.getPathToData()[1], self.decodingMode)
 
-        sbjNumber = paramsList[0]
-
-        eng.configuration_script(self.dataModel.getPathToData()[0], self.dataModel.getPathToData()[1], self.decodingMode, [2, 4, 6])
-        # eng.configurateAndDecode(sbjNumber, self.dataModel.getPathToData()[0], self.dataModel.getPathToData()[1], self.decodingMode, [2, 4, 6])
-        person = input('Enter your name: ')
-        tf = eng.isprime(37)
-        print(tf)
 

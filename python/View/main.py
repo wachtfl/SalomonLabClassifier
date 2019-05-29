@@ -32,7 +32,7 @@ class Root(TabbedPanel):
     file_to_save = 0
     loadfile = ObjectProperty(None)
     text_input = ObjectProperty(None)
-    e1 = NumericProperty(20)
+    # e1 = NumericProperty(20)
     file_name1 = StringProperty('no file')
     file_name2 = StringProperty('no file')
 
@@ -122,12 +122,11 @@ class Root(TabbedPanel):
         self.settingsController.setTargetForClassification(target)
 
     def onStartDecoding(self):
-        print("test set is: ", self.e1)
         # set values if needed:
-        self.settingsController.finishAndRunAlgorithm()
+        self.settingsController.startDecoding()
 
-    def on_slider_value_changed(self, instance, value):
-        self.e1 = value
+    # def on_slider_value_changed(self, instance, value):
+    #     self.e1 = value
 
 
 
