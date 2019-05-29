@@ -6,10 +6,29 @@ import shutil
 
 
 class DataHandler:
-    pass
 
     def __init__(self, data):
+        print('in data handler CONSTRUCTOR')
+
         self.data = data
+        self.fileName1 = ""
+        self.path1 = ""
+        self.fileName2 = ""
+        self.path2 = ""
+
+    def setFileName1(self, path, name):
+        self.path1 = path
+        self.fileName1 = name
+
+    def setFileName2(self, path, name):
+        self.path2 = path
+        self.fileName2 = name
+
+    def getFileName1(self):
+        return self.fileName1
+
+    def getFileName2(self):
+        return self.fileName2
 
     def fileChoosingCompleted(self):
         pass

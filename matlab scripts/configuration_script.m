@@ -1,17 +1,13 @@
-% %% Housekeeping
-% 
-% % Clears the workspace and closes all figure windows
-% clear variables;
-% close all;
-function a = configurateAndDecode(file1, file2, space_time_mode, electrodesToRemove)
+
+function a = configurateAndDecode(file1, file2, space_time_mode)
 
 fromMatlab = 0;
 % --------------------------IMPORTANAT ------------------------------
-% take this mocked values if running not from python:
-fromMatlab = 1;
-space_time_mode = 2;
-file1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
-file2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
+% % take this mocked values if running from MATLAB (and not throw python project):
+% fromMatlab = 1;
+% space_time_mode = 2;
+% file1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
+% file2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
 % --------------------------------------------------------------------
 stmodeStr = "";
 if space_time_mode == 1
@@ -30,13 +26,67 @@ end
 % 'Icon','success');
 
 
-fromUser = inputdlg({'Enter Subject Number:', 'Number of cross-validation steps (k)?','Number of repetitions of full CV with re-ordered data(1 and up):','Run decoding using permuted condition labels? 0 = no / 1 = yes','Number of repetitions of full CV for permuted labels analysis (1 and up)'})
+fromUser = inputdlg({'Enter Subject Number:',...
+    'Number of cross-validation steps (k)'...
+    ,'Number of repetitions of full CV with re-ordered data(1 and up):',...
+    'Run decoding using permuted condition labels? 0 = no / 1 = yes',...
+    'Number of repetitions of full CV for permuted labels analysis (1 and up)',...
+    'stimulus presentation time - relative to the start of the epoch (in ms)'...
+    '1 = SVM with LIBSVM / 2 = SVM with LIBLINEAR - faster, no kernels'...
+    'Convert data into z-scores before decoding? 0 = no / 1 = yes'...
+    'Width of sliding analysis window in ms. (default = 50)'...
+    'Step size with which sliding analysis window is moved through the trial (default = 50)'})
 sbjNumber = fromUser{1};
 kFromUser = str2num(fromUser{2});
 numRepFromUser = str2num(fromUser{3});
 permuteFromUser = str2num(fromUser{4});
 numCVPermuteFromUser = str2num(fromUser{5});
+pointZeroFromUser = str2num(fromUser{6});
+libraryFromUser = str2num(fromUser{7});
+zscoreFromUser = str2num(fromUser{8});
+slidingWindowFromUser = str2num(fromUser{9});
+stepFromUser = str2num(fromUser{10});
 
+% window_width_ms = 50; % Width of sliding analysis window in ms
+%step_width_ms = 50; % Step size with which sliding analysis window is moved through the trial
+
+% put default values:
+if isempty(sbjNumber)
+    sbjNumber = '1'
+end
+if isempty(kFromUser)
+    kFromUser = 10
+end
+if isempty(numRepFromUser)
+    numRepFromUser = 10
+end
+if numRepFromUser == 0 
+    numRepFromUser = 1
+end
+if isempty(permuteFromUser)
+    permuteFromUser = 1
+end
+if isempty(numCVPermuteFromUser)
+    numCVPermuteFromUser = 10
+end
+if numCVPermuteFromUser == 0
+    numCVPermuteFromUser = 1
+end
+if isempty(pointZeroFromUser)
+    pointZeroFromUser = 0
+end
+if isempty(libraryFromUser)
+    libraryFromUser = 2
+end
+if isempty(zscoreFromUser)
+    zscoreFromUser = 0
+end
+if isempty(slidingWindowFromUser)
+    slidingWindowFromUser = 50
+end
+if isempty(stepFromUser)
+    stepFromUser = 50
+end
 %% create sorted data
 fileName1 = file1;
 fileName2 = file2;
@@ -60,15 +110,14 @@ sbj_todo = [1:1];
 dcgs_for_analyses{1} = [1];
 %dcgs_for_analyses{2} = [2];
 
-% Perform cross-condition decoding? 
-% 0 = No / 1 = Yes
-
+% Perform cross-condition decoding? 0 = No / 1 = Yes. possible only if more
+% than 1 dcg group
 cross = 0;
 
 %% Filepaths and Locations of Subject Datasets
 
 % Enter the name of the study (for labeling saved decoding results files)
-study_name = 'EXAMPLE';
+study_name = 'SalomonLab';
 
 % Base directory path (where single subject EEG datasets and channel locations files are stored)
 bdir = '../../results/';
@@ -119,7 +168,7 @@ data_struct_name = 'eeg_sorted_cond'; % Data arrays for use with DDTBOX must use
 
 nchannels = numOfElectrodes; % Number of channels
 sampling_rate = samplingRate; % Data sampling rate in Hz
-pointzero = 600; % Corresponds to the time of the event of interest (e.g. stimulus presentation) relative to the start of the epoch (in ms)
+pointzero = pointZeroFromUser; % Corresponds to the time of the event of interest (e.g. stimulus presentation) relative to the start of the epoch (in ms)
 
 % For plotting single subject temporal decoding results 
 % (not required if performing spatial or spatiotemporal decoding)
@@ -167,9 +216,6 @@ svr_cond_labels{1} = [1];
 % Usage: dcg_labels{Discrimination group number} = 'Name of discrimination group'
 % Example: dcg_labels{1} = 'Correct vs. Error Responses';
 
-
-%file1 = strcat(fileName1, '.set');
-
 dcg_labels{1} = strcat(stmodeStr, ' SVM decoding');
 %dcg_labels{2} = 'B vs. D';
 
@@ -182,12 +228,12 @@ ncond = size(cond_labels, 2);
 
 %% Multivariate Classification/Regression Parameters
 
-analysis_mode = 1; % ANALYSIS mode (1 = SVM classification with LIBSVM / 2 = SVM classification with LIBLINEAR / 3 = SVR with LIBSVM)
+analysis_mode = libraryFromUser; % ANALYSIS mode (1 = SVM classification with LIBSVM / 2 = SVM classification with LIBLINEAR / 3 = SVR with LIBSVM)
 stmode = space_time_mode; % SPACETIME mode (1 = spatial / 2 = temporal / 3 = spatio-temporal)
 avmode = 1; % AVERAGE mode (1 = no averaging; use single-trial data / 2 = use run-averaged data). Note: Single trials needed for SVR
-window_width_ms = 50; % Width of sliding analysis window in ms
-step_width_ms = 50; % Step size with which sliding analysis window is moved through the trial
-zscore_convert = 0; % Convert data into z-scores before decoding? 0 = no / 1 = yes
+window_width_ms = slidingWindowFromUser; %was50; % Width of sliding analysis window in ms
+step_width_ms = stepFromUser %was 50; % Step size with which sliding analysis window is moved through the trial
+zscore_convert = zscoreFromUser; % Convert data into z-scores before decoding? 0 = no / 1 = yes
 cross_val_steps = kFromUser; % How many cross-validation steps (if no runs available)?
 n_rep_cross_val = numRepFromUser; %was 10; % How many repetitions of full cross-validation with re-ordered data?
 perm_test = permuteFromUser; % Run decoding using permuted condition labels? 0 = no / 1 = yes

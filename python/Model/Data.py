@@ -1,8 +1,5 @@
 class Data:
-    #
-    # def __init__(self, features, pathToData):
-    #     self.pathToData = pathToData
-    #     self.features = features
+
 
     def __init__(self, numOfFiles):
         self.numOfFiles = numOfFiles

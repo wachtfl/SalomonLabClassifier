@@ -29,7 +29,7 @@ class LoadDialog(FloatLayout):
 class Root(TabbedPanel):
     settingsController = SettingsController()
 
-    file_to_save = 0
+    files_to_save = 0
     loadfile = ObjectProperty(None)
     text_input = ObjectProperty(None)
     # e1 = NumericProperty(20)
@@ -59,8 +59,11 @@ class Root(TabbedPanel):
         #print('type is: ', type(filename[0]))
         if self.file_to_save == 1:
             self.file_name1 = fileName[0]
+            # self.settingsController.setFileName1(path, fileName[0])
         elif self.file_to_save == 2:
             self.file_name2 = fileName[0]
+            # self.settingsController.setFileName2(path, fileName[0])
+
         self.settingsController.setPathToData(path, fileName[0])
         self.dismiss_popup()
 
@@ -78,8 +81,6 @@ class Root(TabbedPanel):
             self.settingsController.onCompleteChoosingData()
             self.switch_to(self.tab_list[2])
 
-    #       with open(os.path.join(path, filename[0])) as stream:
- #           self.file_text = stream.read()
 
     def build(self):
         return GridLayout()

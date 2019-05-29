@@ -8,8 +8,9 @@ import threading
 
 
 class SettingsController():
-
-    dataModel = Data(2) #init here hoe many files need to be chosen
+    print('in settings controller')
+    numOfFilesToSave = 2
+    dataModel = Data(numOfFilesToSave) #init here hoe many files need to be chosen
 
     algs = [Def.ALGORITHMS.SVM, Def.ALGORITHMS.NN]
     settingsModel = SettingsM(algs)
@@ -64,9 +65,26 @@ class SettingsController():
 
     def isDataOk(self):
         msg = 'please complete data selection first.\n' + str(
-            self.dataModel.getNumOfFiles()) + ' files should be selected, but only ' + str(
+            self.dataModel.getNumOfFiles()) + ' files should be selected, but ' + str(
             len(self.dataModel.pathToData)) + ' was selected.'
         return len(self.dataModel.pathToData) == self.dataModel.getNumOfFiles(), msg
+        # return self.dataHandler.getFileName1() != "" and self.dataHandler.getFileName2() != "", msg
 
     def setChosenAlgorithem(self, alg):
         self.settingsModel.chosenClassifier = alg
+
+    def setFileName1(self, name):
+        self.dataHandler.setFileName1(name)
+
+    def updateFiles(self):
+        if self.getFileName1() != "":
+            self.setPathToData(self.getFileName1())
+
+    def setFileName2(self, name):
+        self.dataHandler.setFileName2(name)
+
+    def getFileName1(self):
+        return self.dataHandler.getFileName1()
+
+    def getFileName2(self):
+        return self.dataHandler.getFileName2()
