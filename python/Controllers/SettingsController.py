@@ -12,7 +12,7 @@ class SettingsController():
     numOfFilesToSave = 2
     dataModel = Data(numOfFilesToSave) #init here hoe many files need to be chosen
 
-    algs = [Def.ALGORITHMS.SVM, Def.ALGORITHMS.NN]
+    algs = [Def.ALGORITHMS.SVM]
     settingsModel = SettingsM(algs)
 
     algHandler = SVMController(dataModel) #change it later to initiate by type, and use IAlgController

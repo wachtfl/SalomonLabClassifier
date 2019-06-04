@@ -114,6 +114,7 @@ class Root(TabbedPanel):
             msg = "Decoding is starting. please wait a while..."
             self.createPopUp("Success!", msg)
             self.settingsController.startDecoding()
+            self.switch_to(self.tab_list[1])
 
     # def on_slider_value_changed(self, instance, value):
     #     self.e1 = value
