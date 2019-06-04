@@ -22,6 +22,10 @@ class Data:
     def setFeatures(self, features):
         self.features = features
 
+    def clearAllPaths(self):
+        self.pathToData.clear()
+        self.pathToDataDir.clear()
+
     def getPathToData(self):
         if self.pathToData != None:
             return self.pathToData

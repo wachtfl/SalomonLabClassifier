@@ -9,29 +9,46 @@ class DataHandler:
 
     def __init__(self, data):
         print('in data handler CONSTRUCTOR')
-
         self.data = data
-        self.fileName1 = ""
-        self.path1 = ""
-        self.fileName2 = ""
-        self.path2 = ""
+        self.fileName1 = ''
+        self.path1 = ''
+        self.fileName2 = ''
+        self.path2 = ''
 
-    def setFileName1(self, path, name):
-        self.path1 = path
-        self.fileName1 = name
+    def setFileName(self, num, path, name):
+        if num == 1:
+            self.path1 = path
+            self.fileName1 = name
+        if num == 2:
+            self.path2 = path
+            self.fileName2 = name
 
-    def setFileName2(self, path, name):
-        self.path2 = path
-        self.fileName2 = name
+    def getFileName(self, num):
+        if num == 1:
+            return self.fileName1
+        if num == 2:
+            return self.fileName2
 
-    def getFileName1(self):
-        return self.fileName1
+    def updateDataModel(self):
+        self.data.clearAllPaths()
+        if self.fileName1 != '':
+            self.data.setPath(self.fileName1, self.path1)
+        if self.fileName2 != '':
+            self.data.setPath(self.fileName2, self.path2)
 
-    def getFileName2(self):
-        return self.fileName2
+    def getNumChosen(self):
+        count = 0
+        if self.fileName1 != '':
+            count += 1
+        if self.fileName2 != '':
+            count += 1
+        return count
 
-    def fileChoosingCompleted(self):
-        pass
+
+    def getNumFilesShouldBeSelected(self):
+        return self.data.getNumOfFiles()
+
+    def copyFilesTorawDataDir(self):
         # copy the files to /raw data
         paths = self.data.getPathToData()
         pathsToDirs = self.data.getPathsToDataDirs()

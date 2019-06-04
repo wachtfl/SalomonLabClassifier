@@ -52,39 +52,25 @@ class SettingsController():
         except:
             print("Error: unable to start thread for decoding")
 
-
-    def setPathToData(self, path, fileName):
-        self.dataModel.setPath(path, fileName)
-
-    def getPathToData(self):
-        return self.dataModel.getPathToData()
+    def updateDataModel(self):
+        self.dataHandler.updateDataModel()
 
     def onCompleteChoosingData(self):
         # do whatever needed when initialize here
-        self.dataHandler.fileChoosingCompleted()
+        self.dataHandler.updateDataModel()
+        self.dataHandler.copyFilesTorawDataDir()
 
     def isDataOk(self):
         msg = 'please complete data selection first.\n' + str(
             self.dataModel.getNumOfFiles()) + ' files should be selected, but ' + str(
-            len(self.dataModel.pathToData)) + ' was selected.'
-        return len(self.dataModel.pathToData) == self.dataModel.getNumOfFiles(), msg
-        # return self.dataHandler.getFileName1() != "" and self.dataHandler.getFileName2() != "", msg
+            self.dataHandler.getNumChosen()) + ' was selected.'
+        return self.dataHandler.getNumChosen() == self.dataHandler.getNumFilesShouldBeSelected(), msg
 
     def setChosenAlgorithem(self, alg):
         self.settingsModel.chosenClassifier = alg
 
-    def setFileName1(self, name):
-        self.dataHandler.setFileName1(name)
+    def setFileName(self, num, path, name):
+        self.dataHandler.setFileName(num, path, name)
 
-    def updateFiles(self):
-        if self.getFileName1() != "":
-            self.setPathToData(self.getFileName1())
-
-    def setFileName2(self, name):
-        self.dataHandler.setFileName2(name)
-
-    def getFileName1(self):
-        return self.dataHandler.getFileName1()
-
-    def getFileName2(self):
-        return self.dataHandler.getFileName2()
+    def getFileName(self, num):
+        return self.dataHandler.getFileName(num)

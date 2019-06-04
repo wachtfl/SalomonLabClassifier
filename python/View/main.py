@@ -56,15 +56,12 @@ class Root(TabbedPanel):
 
     def load(self, path, fileName):
         print('path chosen: ', path, 'file chosen: ', fileName[0])
-        #print('type is: ', type(filename[0]))
         if self.file_to_save == 1:
             self.file_name1 = fileName[0]
-            # self.settingsController.setFileName1(path, fileName[0])
+            self.settingsController.setFileName(1, path, fileName[0])
         elif self.file_to_save == 2:
             self.file_name2 = fileName[0]
-            # self.settingsController.setFileName2(path, fileName[0])
-
-        self.settingsController.setPathToData(path, fileName[0])
+            self.settingsController.setFileName(2, path, fileName[0])
         self.dismiss_popup()
 
     def createWarningPopUp(self, msg):
@@ -88,17 +85,6 @@ class Root(TabbedPanel):
     def func(self, text):
         print(text)
 
-#     def createDropDown(self, list, but):
-#         dropdown = CustomDropDown()
-#         for i in range(len(list)):
-#             btn = Button(text='%s' % str(list[i]), size_hint_y=None, height=44)
-#             btn.bind(on_release=lambda btn: dropdown.select(btn.text))
-#             #btn.bind(on_release=func(btn.text))
-#             dropdown.add_widget(btn)
-# #            mainbutton = Button(text='Hello', size_hint=(None, None))
-# #            mainbutton.bind(on_release=dropdown.open)
-# #            dropdown.bind(on_select=lambda instance, x: setattr(mainbutton, 'text', x))
-#         dropdown.open(but)
 
     def createDropDown(self, list, but, funcOnSelect):
         dropdown = DropDown()
@@ -108,9 +94,6 @@ class Root(TabbedPanel):
             btn.bind(on_release=lambda btn: funcOnSelect(btn.text))
             dropdown.add_widget(btn)
         dropdown.open(but)
-
-    def getPathToData(self):
-        return StringProperty(self.settingsController.getPathToData())
 
 
     def listAlgorithms(self, btn):
