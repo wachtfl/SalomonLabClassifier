@@ -33,8 +33,8 @@ class Root(TabbedPanel):
     loadfile = ObjectProperty(None)
     text_input = ObjectProperty(None)
     # e1 = NumericProperty(20)
-    file_name1 = StringProperty('no file')
-    file_name2 = StringProperty('no file')
+    file_name1 = StringProperty(settingsController.getFileName(1))
+    file_name2 = StringProperty(settingsController.getFileName(2))
 
     def showDecodingTypes(self, btn):
         self.createDropDown(self.settingsController.getDecodingTypes(), btn, self.onChooseDecodingMode)
