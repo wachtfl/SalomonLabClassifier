@@ -12,7 +12,7 @@ class DECODING_MODES(Enum):
 class SVMController(IAlgController):
 
     def __init__(self, dataModel):
-       decodingMode = DECODING_MODES.SPATIAL.value # default value
+       self.decodingMode = None#DECODING_MODES.SPATIAL.value # default value
        self.dataModel = dataModel
 
     def getDecodingMode(self):

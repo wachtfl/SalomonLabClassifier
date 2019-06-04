@@ -32,9 +32,9 @@ class DataHandler:
     def updateDataModel(self):
         self.data.clearAllPaths()
         if self.fileName1 != '':
-            self.data.setPath(self.fileName1, self.path1)
+            self.data.setPath(self.path1, self.fileName1)
         if self.fileName2 != '':
-            self.data.setPath(self.fileName2, self.path2)
+            self.data.setPath(self.path2, self.fileName2)
 
     def getNumChosen(self):
         count = 0

@@ -64,8 +64,8 @@ class Root(TabbedPanel):
             self.settingsController.setFileName(2, path, fileName[0])
         self.dismiss_popup()
 
-    def createWarningPopUp(self, msg):
-        popup = Popup(title="warning", content=Label(text=msg), size_hint=(0.2, 0.2))
+    def createPopUp(self, title, msg):
+        popup = Popup(title=title, content=Label(text=msg), size_hint=(0.2, 0.2))
         popup.open()
 
 
@@ -73,7 +73,7 @@ class Root(TabbedPanel):
         # can update settingsController here instead
         res, msg = self.settingsController.isDataOk()
         if res == False:
-            self.createWarningPopUp(msg)
+            self.createPopUp("Warning", msg)
         else:
             self.settingsController.onCompleteChoosingData()
             self.switch_to(self.tab_list[2])
@@ -107,7 +107,13 @@ class Root(TabbedPanel):
 
     def onStartDecoding(self):
         # set values if needed:
-        self.settingsController.startDecoding()
+        res, msg = self.settingsController.canStartDecoding()
+        if res == False:
+            self.createPopUp("Warning", msg)
+        else:
+            msg = "Decoding is starting. please wait a while..."
+            self.createPopUp("Success!", msg)
+            self.settingsController.startDecoding()
 
     # def on_slider_value_changed(self, instance, value):
     #     self.e1 = value

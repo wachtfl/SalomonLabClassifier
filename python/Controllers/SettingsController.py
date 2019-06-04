@@ -45,12 +45,23 @@ class SettingsController():
         self.settingsModel.setTargetForClassification(target)
 
     def startDecoding(self):
-        # check that all params are set - 2 data files, algorithm and decoding mode:
         try:
             t = threading.Thread(target=self.algHandler.runAlgorithm)
             t.start()
         except:
             print("Error: unable to start thread for decoding")
+
+    def canStartDecoding(self):
+        self.dataHandler.updateDataModel()
+        dataOk, msgData = self.isDataOk()
+        if not dataOk:
+            return dataOk, msgData
+        if self.settingsModel.getChosenAlgorithm() == None:
+            return False, "please choose a Decoding Algorithm"
+        if self.algHandler.getDecodingMode() == None:
+            return False, "please choose Decoding mode"
+        return True, ""
+
 
     def updateDataModel(self):
         self.dataHandler.updateDataModel()
