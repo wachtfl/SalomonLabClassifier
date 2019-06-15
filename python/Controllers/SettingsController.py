@@ -10,12 +10,12 @@ import threading
 class SettingsController():
     print('in settings controller')
     numOfFilesToSave = 2
-    dataModel = Data(numOfFilesToSave) #init here hoe many files need to be chosen
+    dataModel = Data(numOfFilesToSave)       # init here how many files need to be chosen. as for now - only 2 is supported in all app.
 
-    algs = [Def.ALGORITHMS.SVM]
+    algs = [Def.ALGORITHMS.SVM]             # after implement more algs, initialize here.
     settingsModel = SettingsM(algs)
 
-    algHandler = SVMController(dataModel) #change it later to initiate by type, and use IAlgController
+    algHandler = SVMController(dataModel)   # after implement more algs, initiate by type, and use IAlgController
     dataHandler = DataHandler(dataModel)
 
     def getFeatures(self):

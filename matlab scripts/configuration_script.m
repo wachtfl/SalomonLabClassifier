@@ -2,8 +2,9 @@
 function a = configurateAndDecode(file1, file2, space_time_mode)
 
 fromMatlab = 0;
+%diary 'output_log_mat.txt'
 % --------------------------IMPORTANAT ------------------------------
-% % take this mocked values if running from MATLAB (and not throw python project):
+% take this mocked values if running from MATLAB (and not throw python project):
 % fromMatlab = 1;
 % space_time_mode = 2;
 % file1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';

@@ -11,7 +11,7 @@
 
     background_color: (1, 1, 1, 1)    # White colour
     border: [0, 0, 0, 0]
-    background_image: '../images/logo roy3 final.jpg'
+    background_image: '../images/Brainnetwork-e1436746440606-1024x1024.jpg'
 
     TabbedPanelItem:
         id: data_tab
@@ -118,13 +118,14 @@
                 background_color: (0,0,1,1)
     TabbedPanelItem:
         text: 'Log'
-        Label:
-            id: logger
-            text: "log"
+        TextInput:
+            text: '{}'.format(root.log)
+            color: 200,100,80, 1
+            readonly: True
     TabbedPanelItem:
-        text: 'Accuracy'
-        Label:
-            text: 'importing data files, selecting'
+        text: 'Results'
+        TextInput:
+            text: '{}'.format(root.resMsg)
 
 <LoadDialog>:
     BoxLayout:

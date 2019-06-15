@@ -1,5 +1,9 @@
-import os
 
+import threading
+import time
+import sys
+from contextlib import redirect_stdout
+import io
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.properties import NumericProperty
@@ -14,6 +18,8 @@ from kivy.uix.tabbedpanel import TabbedPanel
 
 from Model.Settings_m import SettingsM
 from Controllers.SettingsController import SettingsController
+from Controllers.LogController import LogController
+from Controllers.ResultsController import ResultsController
 
 class CustomDropDown(DropDown):
     pass
@@ -27,11 +33,14 @@ class LoadDialog(FloatLayout):
 
 
 class Root(TabbedPanel):
+    rc = ResultsController()
     settingsController = SettingsController()
-
     files_to_save = 0
     loadfile = ObjectProperty(None)
     text_input = ObjectProperty(None)
+    lc = LogController()
+    log = StringProperty(lc.getText())
+    resMsg = StringProperty(rc.getText())
     # e1 = NumericProperty(20)
     file_name1 = StringProperty(settingsController.getFileName(1))
     file_name2 = StringProperty(settingsController.getFileName(2))
@@ -54,14 +63,18 @@ class Root(TabbedPanel):
         self._popup = Popup(title="Load file", content=content, size_hint=(0.9, 0.9))
         self._popup.open()
 
+
     def load(self, path, fileName):
         print('path chosen: ', path, 'file chosen: ', fileName[0])
         if self.file_to_save == 1:
             self.file_name1 = fileName[0]
             self.settingsController.setFileName(1, path, fileName[0])
+            print('file chosen')
         elif self.file_to_save == 2:
             self.file_name2 = fileName[0]
             self.settingsController.setFileName(2, path, fileName[0])
+            print('file chosen')
+
         self.dismiss_popup()
 
     def createPopUp(self, title, msg):
@@ -95,6 +108,16 @@ class Root(TabbedPanel):
             dropdown.add_widget(btn)
         dropdown.open(but)
 
+    def updateLog(self):
+        t = threading.Thread(target=self.up)
+        t.start()
+
+    def up(self):
+        while (True):
+            sys.stdout = open('output_log.txt', 'w')
+            self.log = self.lc.getText()
+            print(self.log)
+            time.sleep(1)
 
     def listAlgorithms(self, btn):
         self.createDropDown(self.settingsController.getAlgorithms(), btn, self.onChooseAlgorithem)
@@ -124,6 +147,7 @@ class Root(TabbedPanel):
 class EEGApp(App):
     def build(self):
         root = Root()
+        root.updateLog()
         return root
 
 
