@@ -5,12 +5,10 @@ function [numOfElectrodes, samplingRate] = creatingSortedData(fromMatlab, sbjNum
 % fileName1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
 % fileName2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
 
-%file1 = strcat(fileName1, '.set');
 EEG1 = pop_loadset(fileName1);
 data1= EEG1.data;
 
 
-%file2 = strcat(fileName2, '.set');
 EEG2 = pop_loadset(fileName2);
 data2 = EEG2.data;
 

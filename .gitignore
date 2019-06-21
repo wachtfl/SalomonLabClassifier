@@ -1,4 +1,5 @@
 python/.idea
 .idea
-../results/
+python/results/
 */*/__pycache__
+/results/

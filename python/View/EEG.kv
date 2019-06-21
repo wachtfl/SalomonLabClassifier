@@ -1,7 +1,5 @@
 #:kivy 1.0.9
 
-#try attaching screen to tab with https://github.com/kivy/kivy/wiki/Linking-ScreenManager-to-a-different-Widget
-
 <Root>:
 
 
@@ -11,7 +9,7 @@
 
     background_color: (1, 1, 1, 1)    # White colour
     border: [0, 0, 0, 0]
-    background_image: '../images/Brainnetwork-e1436746440606-1024x1024.jpg'
+    background_image: '../images/brain1.jpg'
 
     TabbedPanelItem:
         id: data_tab
@@ -30,7 +28,7 @@
                 Label:
                     id:file_name1
                     text: 'file chosen: {}'.format(root.file_name1)
-                    color: (0,0,0,1)
+                    color: (1,1,1,1)
                     bold: True
             BoxLayout:
                 orientation: 'horizontal'
@@ -43,7 +41,7 @@
                 Label:
                     id:file_name2
                     text: 'file chosen: {}'.format(root.file_name2)
-                    color: (0,0,0,1)
+                    color: (1,1,1,1)
                     bold: True
 
             Button:

@@ -1,3 +1,8 @@
+"""
+Try building a Neural Network with tensorFlow package.
+not yet in use.
+"""
+
 from __future__ import absolute_import, division, print_function
 
 # TensorFlow and tf.keras
@@ -7,6 +12,7 @@ from tensorflow import keras
 # Helper libraries
 import numpy as np
 import matplotlib.pyplot as plt
+from tensorflow.contrib.layers import InputLayer
 
 print(tf.__version__)
 

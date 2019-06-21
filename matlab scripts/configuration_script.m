@@ -7,9 +7,11 @@ fromMatlab = 0;
 % take this mocked values if running from MATLAB (and not throw python project):
 % fromMatlab = 1;
 % space_time_mode = 2;
-% file1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
-% file2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
+% file1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set'; % change ot to your data file name
+% file2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set'; % change ot to your data file name
 % --------------------------------------------------------------------
+
+
 stmodeStr = "";
 if space_time_mode == 1
     stmodeStr = 'Spatial';
@@ -21,11 +23,6 @@ if space_time_mode == 3
     stmodeStr = 'Spatio-Temporal';
 end
         
-% f = uifigure;
-% message = sprintf('start classification process for sbject number %d,\n mode: %s \n, file names:%s \n %s ', sbjNumber, stmodeStr, file1, file2);
-% uialert(f, message,'Success',...
-% 'Icon','success');
-
 
 fromUser = inputdlg({'Enter Subject Number:',...
     'Number of cross-validation steps (k)'...
@@ -88,13 +85,23 @@ end
 if isempty(stepFromUser)
     stepFromUser = 50
 end
+
+
+
 %% create sorted data
 fileName1 = file1;
 fileName2 = file2;
 %electrodesToRemove = [2, 4, 6];
 [numOfElectrodes, samplingRate] = creatingSortedData(fromMatlab, sbjNumber, fileName1, fileName2)%, electrodesToRemove)
 
-%% Select Subject Datasets and Discrimination Groups (dcgs)
+
+%----------------------- START OF EDITABLE SECTION -----------------------------------------------
+%-------------------------------------------------------------------------------------------------
+%----------------- YOU CAN EDIT THE PARAMETRERS HERE, WITH THE SAME PATTERN ----------------------
+%----------------- PLEASE LOOK AT DDTBOX CONFIGURATION SCRIPT FOR MORE SPECIFICATIONA ------------
+%-------------------------------------------------------------------------------------------------
+
+% Select Subject Datasets and Discrimination Groups (dcgs)
 
 % Set the subject datasets on which to perform MVPA
 sbj_todo = [1:1];
@@ -248,8 +255,9 @@ display_on = 1; % Display single subject decoding performance results? 0 = no / 
 perm_disp = 1; % Display the permuted labels decoding results in figure? 0 = no / 1 = yes
 
 
-
-
+%------------------------------------------------------------------------------------------------------------
+%----------------------- END OF EDITABLE SECTION ------------------------------------------------------------
+%------------------------------------------------------------------------------------------------------------
 %% Copy All Settings Into the cfg Structure
 % No user input required in this section
 
