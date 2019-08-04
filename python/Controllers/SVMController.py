@@ -6,6 +6,8 @@ from Controllers.IAlgController import IAlgController
 import matlab.engine
 from Model import Def
 from enum import Enum
+import sys
+import io
 
 """
 an enum class defining all decodings modes as integers values
@@ -55,4 +57,4 @@ class SVMController(IAlgController):
         calls matlab script to run configuration + DDTBOX decoding
         """
         eng = matlab.engine.start_matlab()
-        eng.configuration_script(self.dataModel.getPathToData()[0], self.dataModel.getPathToData()[1], self.decodingMode)
+        ret = eng.configuration_script(self.dataModel.getPathToData()[0], self.dataModel.getPathToData()[1], self.decodingMode)

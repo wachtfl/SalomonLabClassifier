@@ -260,7 +260,7 @@ perm_disp = 1; % Display the permuted labels decoding results in figure? 0 = no 
 %------------------------------------------------------------------------------------------------------------
 %% Copy All Settings Into the cfg Structure
 % No user input required in this section
-
+cfg.sbjNumber = sbjNumber;
 cfg.bdir = bdir;
 cfg.output_dir = output_dir;
 cfg.sbj_code = sbj_code;

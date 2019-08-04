@@ -6,7 +6,7 @@ and a class that represents the algorithms available.
 class ALGORITHMS:
     SVM = "SVM"
     NN = "Neural Network"
-
+    DT = "Desicion Tree"
 
 
 class Algorithms:
