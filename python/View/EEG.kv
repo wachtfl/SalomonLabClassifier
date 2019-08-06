@@ -74,7 +74,7 @@
                     text: "Classification type:"
                     on_release: root.listAlgorithms(self)
                 Button:
-                    text: "for SVM - choose decoding type"
+                    text: "Choose decoding type"
                     on_release: root.showDecodingTypes(self)
 
             BoxLayout:
@@ -114,12 +114,12 @@
                 size_hint_y: None
                 height: 40
                 background_color: (0,0,1,1)
-    TabbedPanelItem:
-        text: 'Log'
-        TextInput:
-            text: '{}'.format(root.log)
-            color: 200,100,80, 1
-            readonly: True
+#    TabbedPanelItem:
+#        text: 'Log'
+#        TextInput:
+#            text: '{}'.format(root.log)
+#            color: 200,100,80, 1
+#            readonly: True
     TabbedPanelItem:
         text: 'Results'
         TextInput:

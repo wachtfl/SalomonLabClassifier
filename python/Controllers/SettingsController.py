@@ -9,12 +9,12 @@ activates the relevant controllers when needed:
 dataHandler, algHandler
 """
 
-from Model.Data import Data
-from Model.Settings import Settings
-from Model.AlogorithmsData import Algorithms, ALGORITHMS
-from Controllers.DataHandler import DataHandler
-from Model import Def
-from Controllers.SVMController import SVMController
+from python.Model.Data import Data
+from python.Model.Settings import Settings
+from python.Model.AlogorithmsData import Algorithms, ALGORITHMS
+from python.Controllers.DataHandler import DataHandler
+from python.Model import Def
+from python.Controllers.SVMController import SVMController
 import threading
 
 

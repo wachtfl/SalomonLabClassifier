@@ -22,6 +22,7 @@ end
 if space_time_mode == 3
     stmodeStr = 'Spatio-Temporal';
 end
+
         
 
 fromUser = inputdlg({'Enter Subject Number:',...
@@ -127,19 +128,26 @@ cross = 0;
 % Enter the name of the study (for labeling saved decoding results files)
 study_name = 'SalomonLab';
 
+tmp = what('SL Classification Results')
+tmp.path
+pathToResultsDir = tmp.path
+
 % Base directory path (where single subject EEG datasets and channel locations files are stored)
-bdir = '../../results/';
+% bdir = '../../results/';
+bdir = pathToResultsDir;
 
 % Output directory (where decoding results will be saved)
-output_dir = '../../results/Decoding_Results/';
+% output_dir = '../../results/Decoding_Results/';
+output_dir = strcat(pathToResultsDir, '/Decoding_Results/');
 
-if fromMatlab == 1
-    % Base directory path (where single subject EEG datasets and channel locations files are stored)  
-    bdir = '../results/';
+% if fromMatlab == 1
+%     % Base directory path (where single subject EEG datasets and channel locations files are stored)  
+%     bdir = '../results/';
+% 
+%     % Output directory (where decoding results will be saved)
+%     output_dir = '../results/Decoding_Results/';  
+% end
 
-    % Output directory (where decoding results will be saved)
-    output_dir = '../results/Decoding_Results/';  
-end
 %Filepaths of single subject datasets (relative to the base directory)
 
 % path = strcat('EEG_data/sbj', num2str(sbjNumber),'/eeg_sorted_cond');
@@ -153,7 +161,7 @@ end
 % 
 %     };
     
-sbj_str = strcat('EEG_data/sbj',sbjNumber, '/eeg_sorted_cond');
+sbj_str = strcat('/EEG_data/sbj',sbjNumber, '/eeg_sorted_cond');
 sbj_code = {...
 
     sbj_str;... % subject 1

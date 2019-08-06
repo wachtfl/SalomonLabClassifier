@@ -2,12 +2,15 @@
 This module contains an Enum class, and SVM Controller class
 """
 
-from Controllers.IAlgController import IAlgController
+from python.Controllers.IAlgController import IAlgController
 import matlab.engine
-from Model import Def
+from python.Model import Def
 from enum import Enum
 import sys
 import io
+from pathlib import Path
+
+import os
 
 """
 an enum class defining all decodings modes as integers values
@@ -56,5 +59,8 @@ class SVMController(IAlgController):
         """
         calls matlab script to run configuration + DDTBOX decoding
         """
+        # pathToRes = Path("SL Classification Results").resolve()
+        # print(pathToRes)
         eng = matlab.engine.start_matlab()
-        ret = eng.configuration_script(self.dataModel.getPathToData()[0], self.dataModel.getPathToData()[1], self.decodingMode)
+        # eng.addpath(str(pathToRes), nargout=0)
+        eng.configuration_script(self.dataModel.getPathToData()[0], self.dataModel.getPathToData()[1], self.decodingMode)

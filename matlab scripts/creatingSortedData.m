@@ -1,9 +1,9 @@
 function [numOfElectrodes, samplingRate] = creatingSortedData(fromMatlab, sbjNumber, fileName1, fileName2, electrodesToRemove) %fileName WITH the '.set' extension
 
 % fromMatlab = 1
-% sbjNumber = 109
-% fileName1 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
-% fileName2 = 'Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
+% sbjNumber = 170
+% fileName1 = 'raw data\Hod_rec_26_9_18_v12018.09.26_16.53.13_trig2_secondRound_ChansRemoved_hfnoiserej.set';
+% fileName2 = 'raw data\Hod_rec_26_9_18_v12018.09.26_16.53.13_trig5_secondRound_ChansRemoved_hfnoiserej.set';
 
 EEG1 = pop_loadset(fileName1);
 data1= EEG1.data;
@@ -40,14 +40,19 @@ eeg_sorted_cond{1, 1} = data1
 eeg_sorted_cond{1, 2} = data2
 
 
+pathToResults = what('SL Classification Results')
 
-pathToDir = strcat('../../results/EEG_data/sbj', sbjNumber);
-pathToChan = '../../results/Channel Locations/channel_inf.mat'
+%pathToDir = strcat('../../results/EEG_data/sbj', sbjNumber);
+% pathToChan = '../../results/Channel Locations/channel_inf.mat'
+
+pathToDir = strcat(pathToResults.path, '/EEG_data/sbj', num2str(sbjNumber))
+pathToChan = strcat(pathToResults.path, '/Channel Locations/channel_inf.mat')
+pathToChanDir = strcat(pathToResults.path, '/Channel Locations/')
 pwd
-if fromMatlab == 1
-    pathToDir = strcat('../results/EEG_data/sbj', sbjNumber);
-    pathToChan = '../results/Channel Locations/channel_inf.mat'
-end
+% if fromMatlab == 1
+%     pathToDir = strcat('../results/EEG_data/sbj', sbjNumber);
+%     pathToChan = '../results/Channel Locations/channel_inf.mat'
+% end
 
 
 pathToSave = strcat(pathToDir, '/eeg_sorted_cond.mat')
@@ -56,8 +61,8 @@ if ~exist(pathToDir, 'dir')
 end
 save(pathToSave, 'eeg_sorted_cond');
 
-if ~exist(pathToChan, 'dir')
-   mkdir(pathToChan)
+if ~exist(pathToChanDir, 'dir')
+   mkdir(pathToChanDir)
 end
 save(pathToChan,'chaninfo','chanlocs')
 

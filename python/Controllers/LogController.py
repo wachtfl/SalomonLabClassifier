@@ -11,6 +11,8 @@ class LogController:
         """
         :return: context of log file
         """
-        f = open('output_log.txt', 'r')
-        text = f.read()
-        return text
+        pass
+        # f = open('output_log.txt', 'r')
+        # text = f.read()
+        # f.close()
+        # return text

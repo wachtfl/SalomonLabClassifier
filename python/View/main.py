@@ -2,6 +2,9 @@
 This is the program's main class. in charge of the initiating the
 KIVY app, and some VIEW classes.
 """
+import sys
+import os
+
 
 from kivy.app import App
 from kivy.uix.label import Label
@@ -13,12 +16,24 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.popup import Popup
 from kivy.uix.tabbedpanel import TabbedPanel
-from Controllers.SettingsController import SettingsController
-from Controllers.LogController import LogController
-from Controllers.ResultsController import ResultsController
+from python.Controllers.SettingsController import SettingsController
+from python.Controllers.LogController import LogController
+from python.Controllers.ResultsController import ResultsController
 import threading
 import time
 import sys
+
+
+from os import close, dup, O_WRONLY
+import os
+
+# old = dup(1)
+# close(1)
+# os.open("output_log.txt", O_WRONLY|os.O_CREAT) # should open on 1
+
+
+
+
 
 class CustomDropDown(DropDown):
     pass
@@ -114,7 +129,7 @@ class Root(TabbedPanel):
             self.createPopUp("Warning", msg)
         else:
             self.settingsController.onCompleteChoosingData()
-            self.switch_to(self.tab_list[2])
+            self.switch_to(self.tab_list[1])
 
 
     def build(self):
@@ -140,8 +155,10 @@ class Root(TabbedPanel):
         """
         initiates a thread for logging
         """
+        pass
         t = threading.Thread(target=self.up)
         t.start()
+
 
     def up(self):
         """
@@ -152,6 +169,7 @@ class Root(TabbedPanel):
             self.log = self.lc.getText()
             print(self.log)
             time.sleep(1)
+
 
     def listAlgorithms(self, btn):
         """
@@ -187,15 +205,21 @@ class Root(TabbedPanel):
             msg = "Decoding is starting. please wait a while..."
             self.createPopUp("Success!", msg)
             self.settingsController.startDecoding()
-            self.switch_to(self.tab_list[1])
+            self.switch_to(self.tab_list[0])
 
 
 class EEGApp(App):
     def build(self):
         root = Root()
-        root.updateLog()
+        # root.updateLog()
         return root
 
 
 if __name__ == '__main__':
     EEGApp().run()
+
+    # close(1)
+    # dup(old)  # should dup to 1
+    # close(old)  # get rid of left overs
+
+
